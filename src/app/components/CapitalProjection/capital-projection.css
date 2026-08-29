@@ -1,0 +1,71 @@
+/* Import ekstermalnie cienkiego fontu (w razie gdyby kontener główny go nie dziedziczył) */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100&display=swap');
+
+.projection-section {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+  width: 100%;
+}
+
+.code-block {
+  background-color: #000000; /* Absolutna czerń */
+  border: 1px solid #1a1a1a; /* Ekstremalnie ciemnoszara ramka */
+  padding: 35px 40px;
+  border-radius: 2px;
+  
+  /* Typografia brutalistyczna */
+  font-family: 'JetBrains Mono', 'Space Mono', monospace;
+  font-weight: 100;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  
+  /* Wymuszenie wygładzania fontu dla efektu "wycinania" */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  /* Brak paska przewijania, idealne ułożenie na sztywno */
+  overflow-x: auto;
+  color: #737A82; /* Kolor domyślny, dla ew. znaków między spanami */
+  
+  /* Reset marginesów z <pre> */
+  margin: 0;
+}
+
+/* --- SYNTAX HIGHLIGHTING --- */
+
+/* Komentarze i tekst poboczny */
+.syntax-comment {
+  color: rgba(255, 255, 255, 0.4); /* Zgaszony, ciemny szary (40% opacity) */
+}
+
+/* Miesiące (M_01:) */
+.syntax-month {
+  color: #a0a5b5; /* Jasny, chłodny szary */
+}
+
+/* Wartości w dolarach - OSTRA BIEL jako główny punkt odniesienia */
+.syntax-dollar {
+  color: #ffffff;
+  font-weight: 300; /* Minimalnie podbite dla kontrastu świetlnego bieli */
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3); /* Ledwo zauważalna, zimna poświata */
+}
+
+/* Wartości procentowe - Lód / Cyjan */
+.syntax-pct {
+  color: #00d8ff;
+  text-shadow: 0 0 6px rgba(0, 216, 255, 0.3);
+}
+
+/* Tryb uśpienia / STANDBY */
+.syntax-standby {
+  /* Odcina całą linię do 25% jasności ignorując wewnętrzne kolory. 
+     Tworzy potężny efekt luki (dziury) w aktywności algorytmu. */
+  opacity: 0.25; 
+}
+
+/* Twardy zakaz interakcji - to statyczny readout, nie zabawka */
+.code-block, .code-block * {
+  pointer-events: none;
+  user-select: none;
+}

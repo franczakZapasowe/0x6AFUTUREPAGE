@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100&display=swap');
+
+.system-footer {
+  background-color: #000000;
+  border-top: 1px solid #1a1a1a; /* Ledwo widoczne, ciemnoszare odcięcie */
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  /* Ekstremalnie cienka i mała typografia */
+  font-family: 'JetBrains Mono', 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 100;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- LEWA STRONA (SESSION DATA) --- */
+.session-data {
+  display: flex;
+  gap: 15px;
+  color: rgba(255, 255, 255, 0.4); /* Wycofany szary */
+}
+
+.separator {
+  color: rgba(255, 255, 255, 0.15); /* Separatory jeszcze ciemniejsze, by nie rzucały się w oczy */
+}
+
+.highlight-cyan {
+  color: #00d8ff;
+}
+
+.highlight-white {
+  color: #ffffff;
+}
+
+/* --- PRAWA STRONA (KILL SWITCH) --- */
+.kill-switch {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+}
+
+/* Brak jakichkolwiek płynnych przejść - natychmiastowa zmiana koloru na krwistą czerwień */
+.kill-switch:hover {
+  color: #ff3b30;
+}
+
+/* --- EKRAN ŚMIERCI (BLACKOUT) --- */
+.blackout-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000; /* Absolutna czerń */
+  z-index: 999999; /* Najwyższy priorytet wyświetlania */
+  
+  /* Wymuszenie ukrycia kursora na samej warstwie zablokowania */
+  cursor: none !important; 
+  
+  /* Pochłania wszystkie ewentualne kliknięcia */
+  pointer-events: all; 
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+  .system-footer {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+  
+  .session-data {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .separator {
+    display: none;
+  }
+}

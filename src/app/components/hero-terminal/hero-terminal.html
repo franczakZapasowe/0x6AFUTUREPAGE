@@ -1,0 +1,38 @@
+<section class="hero-section">
+  <div class="headline-container">
+    
+    <div class="header-sequence">
+      <!-- Piszący się tytuł -->
+      <h1 class="header-title">
+       <img src="/pic/poprawioneLogo.jpeg" class="system-seal" alt="seal">
+        {{ typedTitle() }}
+      </h1>
+      
+      <div class="header-logs">
+        <!-- Skończone linijki -->
+        @for (log of typedLogs(); track $index) {
+          @if (log === '') {
+            <br>
+          } @else {
+            <div class="header-log-line">{{ log }}</div>
+          }
+        }
+        
+        <!-- Aktualnie pisząca się linijka z kursorem -->
+        @if (currentLog() !== '') {
+          <div class="header-log-line">{{ currentLog() }}<span class="typing-caret">_</span></div>
+        }
+      </div>
+    </div>
+    
+    <p class="subheadline">{{ typedSubheadline() }}</p>
+
+    <!-- Piszący się napis zachęcający do wciśnięcia Enter -->
+    @if (typedPrompt().length > 0) {
+      <div class="continue-prompt" [class.ready-to-pulse]="bootPhase() === 'waiting'">
+        {{ typedPrompt() }}<span class="cursor">_</span>
+      </div>
+    }
+
+  </div>
+</section>

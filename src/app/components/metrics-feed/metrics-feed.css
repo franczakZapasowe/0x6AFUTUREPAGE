@@ -1,0 +1,109 @@
+.terminal-section {
+  width: 100%;
+  flex: 1;
+  padding-top: 35px; 
+  padding-left: 20px; 
+}
+
+.terminal-container {
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.terminal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
+  font-family: 'Space Mono', 'Roboto Mono', 'Consolas', monospace;
+  font-size: 0.8rem;
+}
+
+.header-path {
+  color: #5a5f73;
+  letter-spacing: 1px;
+}
+
+.header-cmd {
+  color: #00d8ff; /* Usunięto zieleń, wstawiono lodowaty cyjan */
+  letter-spacing: 1px;
+}
+
+.terminal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px; 
+  font-family: 'Space Mono', 'Roboto Mono', 'Consolas', monospace;
+  font-size: 0.85rem;
+}
+
+.log-line {
+  display: flex;
+  align-items: center;
+  gap: 12px; 
+}
+
+.log-time {
+  color: #5a5f73; 
+  width: 110px;
+  flex-shrink: 0;
+}
+
+.log-tag {
+  width: 60px;
+  flex-shrink: 0;
+  font-weight: 500;
+}
+
+.log-hex {
+  color: #8c92a6; 
+  width: 60px;
+  flex-shrink: 0;
+}
+
+.log-msg {
+  color: #a0a5b5; 
+  white-space: nowrap;
+}
+
+/* Kolory specyficznych tagów - ZERO ZIELENI I ŻÓŁCI */
+.tag-ok {
+  color: #00d8ff; /* Lodowaty cyjan */
+}
+
+.tag-dbg {
+  color: #d9e0e3; 
+}
+
+.tag-crit {
+  color: #ff3b30; 
+}
+
+.tag-warn {
+  color: #8c92a6; /* Chłodny, przygaszony szary zamiast żółtego */
+}
+
+.tag-info {
+  color: #ffffff; /* Czysta biel dla wyróżnienia informacji */
+}
+
+.cursor-line {
+  margin-top: 4px;
+}
+
+.block-cursor {
+  display: inline-block;
+  width: 10px;
+  height: 16px;
+  background-color: #00d8ff; /* Kursor w kolorze cyjanu */
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}

@@ -1,0 +1,43 @@
+<section class="observatory-section">
+  
+  <div class="observatory-header">
+    <h2 class="section-title">SYSTEM // OBSERVATORY</h2>
+    <p class="section-subtitle">CONCEPTUAL MONITORING LAYER</p>
+  </div>
+
+  <!-- Główny, płaski pasek HUD wtopiony w absolutną czerń -->
+  <div class="observatory-banner">
+    <div class="stats-row">
+      
+      <div class="stat-block">
+        <span class="stat-label">MARKET STATE</span>
+        <span class="stat-value static-gray">OBSERVING</span>
+      </div>
+      
+      <div class="stat-block">
+        <span class="stat-label">FILTER STATUS</span>
+        <span class="stat-value variable-cyan">{{ filterValue() }} <span class="slash">/</span> 09</span>
+        <span class="stat-time">{{ lastUpdate() }}</span>
+      </div>
+      
+      <div class="stat-block">
+        <span class="stat-label">EXPOSURE</span>
+        <!-- Przełączanie klasy w ułamku sekundy, gdy wpadnie DENIED -->
+        <span class="stat-value" [class.flash-red]="exposureStatus() === 'DENIED'" [class.static-gray]="exposureStatus() !== 'DENIED'">{{ exposureStatus() }}</span>
+      </div>
+      
+      <div class="stat-block">
+        <span class="stat-label">EXECUTION MODE</span>
+        <span class="stat-value static-gray">SELECTIVE</span>
+      </div>
+      
+      <div class="stat-block">
+        <span class="stat-label">ANOMALY STATUS</span>
+        <!-- Sterylne NEGATIVE bez grama zieleni (system tylko odnotowuje fakt) -->
+        <span class="stat-value static-white">[ NEGATIVE ]</span>
+      </div>
+
+    </div>
+  </div>
+
+</section>

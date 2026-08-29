@@ -1,0 +1,26 @@
+<section class="telemetry-section">
+  
+  <div class="telemetry-header">
+    // NODE_INFRASTRUCTURE_DIAGNOSTICS :: ACTIVE
+  </div>
+
+  <div class="telemetry-grid">
+    @for (node of nodes(); track node.label) {
+      <div class="telemetry-row">
+        
+        <div class="col-label">{{ node.label }}</div>
+        
+        <div class="col-bar">
+          <!-- Separacja spanów w celu nadania kolorów (Cyjan dla Load, Ciemny Szary dla Pustki) -->
+          <span class="bar-active">{{ node.activeBar }}</span><span class="bar-empty">{{ node.emptyBar }}</span>
+        </div>
+        
+        <div class="col-pct">{{ node.currentPct }}%</div>
+        
+        <div class="col-status">{{ node.status }}</div>
+        
+      </div>
+    }
+  </div>
+
+</section>

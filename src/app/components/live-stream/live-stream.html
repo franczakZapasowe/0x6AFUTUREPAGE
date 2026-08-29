@@ -1,0 +1,28 @@
+<div class="stream-box">
+  
+  <div class="stream-header">
+    <span class="header-title">OBSERVATORY // LIVE</span>
+    <!-- Zmieniono klasę koloru z oxide-green na cyjan -->
+    <span class="header-badge"><span class="pulse-dot"></span> STREAM</span>
+  </div>
+
+  <!-- Mechanizm append & scroll - logi wyświetlają się z animacją slide-up -->
+  <div class="stream-body" #scrollContainer>
+    @for (log of currentLogs(); track log.id) {
+      <div class="log-row">
+        <span class="log-time">{{ log.time }}</span>
+        <span class="log-key">{{ log.key }}</span>
+        <span class="log-arrow">→</span>
+        <!-- Użyto klasy koloru przypisanej w TS -->
+        <span class="log-val" [class]="log.color">{{ log.val }}</span>
+      </div>
+    }
+
+    <!-- Kursor przesunięty niżej, żeby nie skakał nerwowo z każdą linijką -->
+    <div class="log-row cursor-row">
+      <span class="log-time">{{ currentTime() }}</span>
+      <span class="block-cursor"></span>
+    </div>
+  </div>
+
+</div>

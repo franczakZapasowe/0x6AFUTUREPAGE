@@ -1,0 +1,32 @@
+<main class="system-container">
+  
+  @if (systemState() === 'locked') {
+    <!-- EKRAN STARTOWY -->
+    <app-hero-terminal (bootSequenceComplete)="startBootSequence()"></app-hero-terminal>
+  } @else {
+    <!-- CAŁA STRONA ŁADUJE SIĘ OD RAZU -->
+    <app-header></app-header>
+    
+    <!-- ROZDZIELONA SEKCJA HERO -->
+    <div class="hero-split">
+      <app-artifact-display></app-artifact-display>
+      <app-live-stream></app-live-stream>
+    </div>
+
+    <!-- Architektura i Obserwatorium -->
+    <app-architecture></app-architecture>
+    <app-observatory></app-observatory>
+    
+    <!-- NOWA SEKCJA: PROJEKCJA KAPITAŁU (Przed Gatekeeperem) -->
+    <app-capital-projection></app-capital-projection>
+    
+    <!-- SEKCJA: GATEKEEPER (lewa) i LOGI TERMINALA (prawa) -->
+    <div class="bottom-split">
+      <app-access-protocol></app-access-protocol>
+      <app-metrics-feed></app-metrics-feed>
+    </div>
+
+    <app-footer></app-footer>
+  }
+
+</main>

@@ -1,0 +1,28 @@
+<section class="terminal-section">
+  <div class="terminal-container">
+    
+    <!-- Nagłówek terminala -->
+    <div class="terminal-header">
+      <span class="header-path">/var/log/0x6a.log</span>
+      <span class="header-cmd">tail -f</span>
+    </div>
+
+    <!-- Ciało terminala -->
+    <div class="terminal-body">
+      @for (log of logs(); track $index) {
+        <div class="log-line">
+          <span class="log-time">{{ log.time }}</span>
+          <span class="log-tag" [class]="log.tagClass">[{{ log.tag }}]</span>
+          <span class="log-hex">{{ log.hex }}</span>
+          <span class="log-msg">{{ log.message }}</span>
+        </div>
+      }
+      
+      <!-- Pulsujący kursor na samym dole -->
+      <div class="cursor-line">
+        <span class="block-cursor"></span>
+      </div>
+    </div>
+
+  </div>
+</section>

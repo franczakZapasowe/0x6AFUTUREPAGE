@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;300&display=swap');
+
+.observatory-section {
+  padding: 40px 30px;
+  max-width: 1250px;
+  margin: 0 auto;
+  background: transparent;
+}
+
+.observatory-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 20px;
+}
+
+.section-title {
+  color: rgba(255, 255, 255, 0.3); /* Przygaszony techniczny drogowskaz */
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  margin: 0;
+  font-family: 'JetBrains Mono', 'Space Mono', monospace;
+  font-weight: 100;
+}
+
+.section-subtitle {
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  margin: 0;
+  font-family: 'JetBrains Mono', 'Space Mono', monospace;
+  text-transform: uppercase;
+  font-weight: 100;
+}
+
+/* W 100% CZARNE TŁO ODCIĘTE CIENKIMI LINIAMI */
+.observatory-banner {
+  background: #000000;
+  border-top: 1px solid #1a1a1a;
+  border-bottom: 1px solid #1a1a1a;
+  padding: 30px 40px;
+  margin-bottom: 30px;
+}
+
+.stats-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.stat-block {
+  display: flex;
+  flex-direction: column;
+  font-family: 'JetBrains Mono', 'Space Mono', monospace;
+}
+
+/* Tytuły kolumn (Opacity 30%) */
+.stat-label {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  font-weight: 100;
+  text-transform: uppercase;
+}
+
+/* Uniwersalna wielkość danych */
+.stat-value {
+  font-size: 1.25rem;
+  font-weight: 300;
+  letter-spacing: 1.5px;
+}
+
+/* STATUSY STATYCZNE (Jasny, sterylny szary) */
+.static-gray {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ZMIENNY FILTER (Ostry, chłodny cyjan) */
+.variable-cyan {
+  color: #00d8ff;
+  text-shadow: 0 0 8px rgba(0, 216, 255, 0.4);
+}
+
+/* STATUS ANOMALII [ NEGATIVE ] */
+.static-white {
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 100;
+}
+
+.slash {
+  color: rgba(255, 255, 255, 0.3);
+  margin: 0 4px;
+}
+
+/* ZNACZNIK CZASU ZSYNCHRONIZOWANY Z LOGIEM */
+.stat-time {
+  color: rgba(255, 255, 255, 0.4);
+  font-family: 'JetBrains Mono', 'Space Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 100;
+  margin-top: 8px;
+}
+
+/* KRWISTOCZERWONY FLESZ DENIED */
+.flash-red {
+  color: #ff3b30 !important;
+  text-shadow: 0 0 10px rgba(255, 59, 48, 0.6);
+  font-weight: 300;
+  animation: rapidBlink 0.15s infinite; 
+}
+
+:host {
+  display: block;
+  animation: mechanicalRender 1.2s steps(20, end) forwards;
+}
+
+@keyframes rapidBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes mechanicalRender {
+  0% { clip-path: inset(0 0 100% 0); }
+  100% { clip-path: inset(0 0 0 0); }
+}
+
+@media (max-width: 950px) {
+  .stats-row {
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+  .observatory-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

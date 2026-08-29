@@ -1,0 +1,97 @@
+/* EFEKT IDEALNEGO CENTROWANIA NA CAŁY EKRAN */
+.hero-section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0 30px;
+}
+
+.headline-container {
+  text-align: center;
+  max-width: 900px;
+  width: 100%;
+  margin-top: -10vh;
+}
+
+.header-sequence {
+  display: inline-block; 
+  text-align: left;
+  margin-bottom: 25px;
+}
+
+/* Wartości i nagłówki (0x6A): Bardzo chłodny, wręcz wyblakły błękit (Ice Blue) */
+.header-title {
+  color: #cce6ff; /* Wyblakły, lodowaty błękit */
+  font-family: 'Fira Code', 'Space Mono', 'Roboto Mono', 'Consolas', monospace;
+  font-size: 1.4rem; 
+  font-weight: 300; 
+  margin: 0 0 25px 0;
+  letter-spacing: 4px;
+}
+
+/* Logi historyczne: Przygaszony, ciemny szary (system zrzuca dane z przeszłości) */
+.header-logs {
+  font-family: 'Fira Code', 'Space Mono', 'Roboto Mono', 'Consolas', monospace;
+  color: rgba(255, 255, 255, 0.35); /* Przygaszony, ciemnoszary (35% bieli) */
+  font-size: 0.95rem;
+  font-weight: 300; 
+  line-height: 1.6;
+  white-space: pre; 
+  letter-spacing: 1px;
+}
+
+.header-log-line {
+  color: inherit; 
+}
+
+/* Karetka pisząca logi (dopasowana do koloru logów) */
+.typing-caret {
+  color: inherit;
+  margin-left: 2px;
+  animation: blink-caret 1s step-end infinite;
+}
+
+/* Status: Półprzezroczysty, wycofany w tło (np. 50% bieli) */
+.subheadline {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  font-family: 'Fira Code', 'Space Mono', 'Roboto Mono', 'Consolas', monospace;
+  font-weight: 300;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Komenda interaktywna (PRESS ENTER): Ostra, sterylna, rażąca biel */
+.continue-prompt {
+  color: #ffffff; /* 100% Czystej Bieli */
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.4); /* Sterylna poświata (glow) */
+  font-family: 'Fira Code', 'Space Mono', 'Roboto Mono', 'Consolas', monospace;
+  font-weight: 300;
+  font-size: 1rem;
+  margin-top: 35px;
+  letter-spacing: 1.5px;
+}
+
+/* Pulsowanie całej zachęty po skończeniu pisania */
+.continue-prompt.ready-to-pulse {
+  animation: pulse 1.5s infinite;
+}
+
+.continue-prompt .cursor {
+  margin-left: 2px;
+  animation: blink-caret 1s step-end infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; } /* Przygasa do 35%, by efekt "mrugania" był mocny */
+}
+
+@keyframes blink-caret {
+  from, to { opacity: 1; }
+  50% { opacity: 0; }
+}

@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&display=swap');
+
+/* ZERO RAMK, ZERO KART. Czysta próżnia. */
+.telemetry-section {
+  background: #000000;
+  padding: 60px 30px;
+  max-width: 1100px;
+  margin: 0 auto;
+  
+  font-family: 'JetBrains Mono', 'Fira Code', 'Roboto Mono', monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.telemetry-header {
+  color: rgba(255, 255, 255, 0.4); /* Przygaszony, diagnostyczny szary */
+  font-size: 0.85rem;
+  font-weight: 300;
+  letter-spacing: 2px;
+  margin-bottom: 45px;
+}
+
+.telemetry-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Perfekcyjnie wyliczony GRID (4 kolumny) */
+.telemetry-row {
+  display: grid;
+  grid-template-columns: 310px max-content 55px auto;
+  gap: 25px;
+  align-items: center;
+  width: 100%;
+}
+
+/* Kolumna 1: Zgaszone Labelki */
+.col-label {
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 300;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+/* Kolumna 2: Surowy ASCII Bar */
+.col-bar {
+  font-size: 0.95rem;
+  letter-spacing: 3px; 
+  display: flex;
+  user-select: none; /* Zablokowanie zaznaczania na pasku, żeby wyglądał na sprzętowy element */
+}
+
+.bar-active {
+  color: #00E5FF; /* Ice Cyan */
+  text-shadow: 0 0 8px rgba(0, 229, 255, 0.3); /* Zmrożony blask plazmy */
+  font-weight: 400;
+}
+
+.bar-empty {
+  color: #222222; /* Ekstremalnie ciemny, brudny szary */
+}
+
+/* Kolumna 3: Czysta Biel i Pogrubienie */
+.col-pct {
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-align: right; /* Równa do prawej, aby jedności i dziesiątki stały w linii */
+}
+
+/* Kolumna 4: Zgaszony Status */
+.col-status {
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 300;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+/* --- RESPONSIVE BRUTALISM --- */
+/* Poniżej 900px lekko ściskamy grid */
+@media (max-width: 900px) {
+  .telemetry-row {
+    grid-template-columns: 240px max-content 50px auto;
+    gap: 15px;
+  }
+}
+
+/* Poniżej 768px (Mobile) - Grid zwija się w spójne "cegły" */
+@media (max-width: 768px) {
+  .telemetry-row {
+    grid-template-columns: max-content auto;
+    grid-template-areas: 
+      "label label"
+      "bar bar"
+      "pct status";
+    gap: 6px;
+    margin-bottom: 25px;
+  }
+  
+  .col-label { grid-area: label; color: rgba(255, 255, 255, 0.6); margin-bottom: 2px;}
+  .col-bar { grid-area: bar; letter-spacing: 4px; } /* Lekkie rozciągnięcie znaków na telefonie dla czytelności */
+  .col-pct { grid-area: pct; text-align: left; }
+  .col-status { grid-area: status; }
+}

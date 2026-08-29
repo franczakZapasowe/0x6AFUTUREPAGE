@@ -1,0 +1,101 @@
+<section class="access-section">
+  <div class="access-container">
+
+   <div class="gatekeeper-header">
+    <img src="/pic/poprawioneLogo.jpeg" class="system-seal" alt="seal">
+      <span>// GATEKEEPER v1.2</span>
+  </div>
+
+    <h2 class="access-title">ACCESS PROTOCOL</h2>
+    <p class="access-desc">
+      0x6a is currently deployed in closed alpha for select nodes. Public deployment is strictly
+      throttled. Submit a valid access key or node address to request provisioning.
+    </p>
+
+    <!-- Tabela Statystyk -->
+    <div class="stats-grid">
+      <div class="stat-row">
+        <span>SLOTS_REMAINING</span>
+        <span class="stat-val highlight-cyan"> [ MARGINAL ]</span>
+      </div>
+      <div class="stat-row">
+        <span>SYSTEM_STATE_REFRESH</span>
+        <span class="stat-val highlight-cyan">LOCKED</span>
+      </div>
+      <div class="stat-row">
+        <span>CURRENT_ATTEMPTS</span>
+        <span class="stat-val" [class.highlight-red]="status() === 'sealed'">
+          {{ formatAttempts(attempts()) }}
+        </span>
+      </div>
+    </div>
+    
+    <!-- 1. STAN AKTYWNY LUB PRZETWARZANIE -->
+    @if (status() === 'idle' || status() === 'processing') {
+      <div class="prompt-line">root@0x6a:~# enter_access_key</div>
+      
+      <div class="input-action-row">
+        <div class="input-wrapper">
+          <span class="prompt-arrow">></span>
+          <input 
+            type="text" 
+            class="access-input" 
+            [value]="accessKey()"
+            (input)="onKeyChange($event)"
+            (keyup.enter)="executeRequest()"
+            [disabled]="status() === 'processing'"
+            spellcheck="false"
+            autocomplete="off"
+          >
+        </div>
+
+        <button 
+          class="execute-btn" 
+          (click)="executeRequest()" 
+          [disabled]="status() === 'processing' || !accessKey()">
+          @if (status() === 'processing') {
+            [ VALIDATING... ]
+          } @else {
+            [ EXECUTE_REQUEST ]
+          }
+        </button>
+      </div>
+
+      @if (validationLogs().length > 0) {
+        <div class="validation-logs">
+          @for (step of validationLogs(); track $index) {
+            <div class="log-line">
+              <span class="log-tag" [class]="step.type">{{ step.tag }}</span> 
+              <span class="log-msg">{{ step.msg }}</span>
+            </div>
+          }
+        </div>
+      }
+    } 
+    
+    <!-- 2. STAN BŁĘDU (ZWYKŁA ODMOWA, MOŻNA PONOWIĆ) -->
+    @else if (status() === 'denied') {
+      <div class="error-box fade-in">
+        <h3 class="error-title">[ CRITICAL: UNAUTHORIZED_ENTITY ]</h3>
+        <p class="error-desc">
+          The supplied access key was not recognized in the node registry. Provisioning
+          requires a valid node address or operator-issued key.
+        </p>
+        <a href="#" class="retry-link" (click)="$event.preventDefault(); retry()">// drop_trace</a>
+      </div>
+    }
+
+    <!-- 3. STAN CAŁKOWITEJ BLOKADY (SEALED) -->
+    @else if (status() === 'sealed') {
+      <div class="sealed-box fade-in">
+        <div class="sealed-logs">
+          <span>[ ! ] THRESHOLD EXCEEDED.</span>
+          <span>[ ! ] ACCESS PORT SEALED.</span>
+          <span>[ ! ] ORIGIN ROUTE (IP) LOGGED AND BLACKLISTED.</span>
+          <span class="dropped-conn">// CONNECTION DROPPED.</span>
+        </div>
+      </div>
+    }
+
+  </div>
+</section>

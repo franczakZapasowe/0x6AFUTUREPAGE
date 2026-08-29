@@ -1,0 +1,77 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'tailwindcss';
+
+:root {
+  /* --- NOWA PALETA WYRAFINOWANA --- */
+  
+  /* Baza / Tła */
+  --deep-void: #000000; /* Absolutna czerń */
+  --carbon: #0A0C0D;
+  --graphite: #111416;
+
+  /* Typografia */
+  --signal-white: #D9E0E3;
+  --cold-slate: #737A82;
+
+  /* Sygnały (Akcenty) */
+  --oxide-green: #A8FF12;
+  --dead-green: #314A19;
+  --electric-cyan: #4DEEEA;
+  --warning-amber: #C7A44A;
+  --error-red: #8F3434;
+
+  /* --- MAPOWANIE NA STARE ZMIENNE --- */
+  --bg-color: var(--deep-void);
+  --accent-green: var(--oxide-green);
+  --accent-cyan: var(--electric-cyan);
+  --text-muted: var(--cold-slate);
+  
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+body {
+  background-color: var(--deep-void);
+  color: var(--signal-white); 
+  font-family: var(--font-mono);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 1. ZNAK WODNY W TLE (GRAWER) */
+body::before {
+  content: "";
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  
+  background-image: url('/pic/logo.jpeg'); 
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  /* Zwiększamy nieco rozmiar, by jako znak wodny logo "siedziało" dumnie w cieniu */
+  background-size: 300px; 
+  
+  /* DRASTYCZNE ZMNIEJSZENIE JASNOŚCI: 3% (0.03) */
+  opacity: 0.03; 
+  
+  /* Jeśli logo ma w sobie jakikolwiek kolor, to go zabijamy - zostaje tylko światłocień */
+  filter: grayscale(100%) contrast(120%);
+  
+  z-index: -10; 
+  pointer-events: none; 
+}
+
+/* 2. PIECZĘĆ SYSTEMOWA (KLASA DLA MAŁEJ IKONY) */
+/* Możesz dodać tę klasę do tagu <img> w dowolnym komponencie */
+.system-seal {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  vertical-align: baseline;
+  margin-right: 12px;
+  /* Wymuszamy chłodny, wyblakły styl */
+  filter: grayscale(100%) brightness(150%) opacity(0.8);
+}

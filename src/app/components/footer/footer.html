@@ -1,0 +1,22 @@
+<footer class="system-footer">
+  
+  <!-- Suche dane sesyjne -->
+  <div class="session-data">
+    <span>SESSION_HASH: <span class="highlight-cyan">{{ sessionHash() }}</span></span>
+    <span class="separator">|</span>
+    <span>ROUTING_NODE: <span class="highlight-white">TYCHY_PL</span></span>
+    <span class="separator">|</span>
+    <span>CONNECTION: <span class="highlight-white">ENCRYPTED</span></span>
+  </div>
+
+  <!-- Przycisk samobójczy (Kill Switch) -->
+  <button class="kill-switch" (click)="terminateConnection()">
+    [ // TERMINATE_CONNECTION ]
+  </button>
+
+</footer>
+
+<!-- Warstwa Blackout (Pojawia się tylko po odpaleniu funkcji terminateConnection) -->
+@if (isTerminated()) {
+  <div class="blackout-overlay"></div>
+}
