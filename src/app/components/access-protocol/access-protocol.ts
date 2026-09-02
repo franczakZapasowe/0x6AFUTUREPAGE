@@ -14,22 +14,22 @@ interface LogStep {
 })
 export class AccessProtocol implements OnInit {
   accessKey = signal('');
-  // Dodano nowy status: 'sealed'
-  status = signal<'idle' | 'processing' | 'denied' | 'sealed'>('idle');
+  // Dodano nowy status: 'granted'
+  status = signal<'idle' | 'processing' | 'denied' | 'sealed' | 'granted'>('idle');
   validationLogs = signal<LogStep[]>([]);
   
   attempts = signal(0); 
   readonly MAX_ATTEMPTS = 6;
   readonly STORAGE_KEY = '0x6a_access_attempts';
+  // Tajny klucz dostępu
+  readonly SECRET_KEY = '0x6A:65:76:6C:6F:74'; 
 
   ngOnInit() {
-    // Weryfikacja na starcie - sprawdzanie localStorage
     const storedAttempts = localStorage.getItem(this.STORAGE_KEY);
     if (storedAttempts) {
       const parsedAttempts = parseInt(storedAttempts, 10);
       this.attempts.set(parsedAttempts);
       
-      // Jeśli limit wyczerpany w poprzednich sesjach, od razu blokujemy
       if (parsedAttempts >= this.MAX_ATTEMPTS) {
         this.status.set('sealed');
       }
@@ -46,14 +46,30 @@ export class AccessProtocol implements OnInit {
     
     this.status.set('processing');
     this.validationLogs.set([]);
+    
+    // Sprawdzamy czy wpisano tajny klucz
+    const isKeyValid = this.accessKey().trim() === this.SECRET_KEY;
 
-    const steps: { log: LogStep, delay: number }[] = [
-      { log: { tag: '[OK]', type: 'ok', msg: 'parsing access key...' }, delay: 300 },
-      { log: { tag: '[OK]', type: 'ok', msg: 'querying node registry...' }, delay: 900 },
-      { log: { tag: '[OK]', type: 'ok', msg: 'verifying clearance level...' }, delay: 1600 },
-      { log: { tag: '[>>]', type: 'warn', msg: 'encrypting request payload...' }, delay: 2300 },
-      { log: { tag: '[..]', type: 'wait', msg: 'dispatching to provisioning queue...' }, delay: 3000 }
-    ];
+    // Różne scenariusze logów w zależności od sukcesu/porażki
+    let steps: { log: LogStep, delay: number }[] = [];
+    
+    if (isKeyValid) {
+      steps = [
+        { log: { tag: '[OK]', type: 'ok', msg: 'parsing access key...' }, delay: 300 },
+        { log: { tag: '[OK]', type: 'ok', msg: 'querying node registry...' }, delay: 900 },
+        { log: { tag: '[OK]', type: 'ok', msg: 'verifying clearance level: ELITE' }, delay: 1600 },
+        { log: { tag: '[>>]', type: 'warn', msg: 'bypassing security protocols...' }, delay: 2300 },
+        { log: { tag: '[OK]', type: 'ok', msg: 'establishing direct neural link...' }, delay: 3000 }
+      ];
+    } else {
+      steps = [
+        { log: { tag: '[OK]', type: 'ok', msg: 'parsing access key...' }, delay: 300 },
+        { log: { tag: '[OK]', type: 'ok', msg: 'querying node registry...' }, delay: 900 },
+        { log: { tag: '[OK]', type: 'ok', msg: 'verifying clearance level...' }, delay: 1600 },
+        { log: { tag: '[>>]', type: 'warn', msg: 'encrypting request payload...' }, delay: 2300 },
+        { log: { tag: '[..]', type: 'wait', msg: 'dispatching to provisioning queue...' }, delay: 3000 }
+      ];
+    }
 
     steps.forEach((step, index) => {
       setTimeout(() => {
@@ -61,16 +77,23 @@ export class AccessProtocol implements OnInit {
         
         if (index === steps.length - 1) {
           setTimeout(() => {
-            // Rejestracja błędnej próby
-            const currentAttempts = this.attempts() + 1;
-            this.attempts.set(currentAttempts);
-            localStorage.setItem(this.STORAGE_KEY, currentAttempts.toString());
-
-            // Decyzja czy zwykły błąd, czy trwała blokada
-            if (currentAttempts >= this.MAX_ATTEMPTS) {
-              this.status.set('sealed');
+            if (isKeyValid) {
+              // Reset prób na wypadek sukcesu
+              this.attempts.set(0);
+              localStorage.setItem(this.STORAGE_KEY, '0');
+              this.status.set('granted');
             } else {
-              this.status.set('denied');
+              // Rejestracja błędnej próby
+              const currentAttempts = this.attempts() + 1;
+              this.attempts.set(currentAttempts);
+              localStorage.setItem(this.STORAGE_KEY, currentAttempts.toString());
+
+              // Decyzja czy zwykły błąd, czy trwała blokada
+              if (currentAttempts >= this.MAX_ATTEMPTS) {
+                this.status.set('sealed');
+              } else {
+                this.status.set('denied');
+              }
             }
           }, 800);
         }
@@ -85,7 +108,6 @@ export class AccessProtocol implements OnInit {
   }
 
   formatAttempts(num: number): string {
-    // Formatuje liczbę do postaci 0x1 / 0x6
     return `0x${num} / 0x${this.MAX_ATTEMPTS}`;
   }
 }

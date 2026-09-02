@@ -1,6 +1,6 @@
 .stream-box {
   background: transparent;
-  border: 1px solid rgb(28, 48, 48);
+  border: 1px solid #1a1a1a; /* Ciemnoszare obramowanie z footera */
   border-radius: 2px;
   width: 100%;
   max-width: 400px;
@@ -11,7 +11,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid #1a1a1a; /* Ciemnoszara linia oddzielająca */
   padding-bottom: 10px;
   margin-bottom: 14px; 
 }

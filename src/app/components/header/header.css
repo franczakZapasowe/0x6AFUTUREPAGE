@@ -14,7 +14,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 14px 35px;
-  border-bottom: 1px solid rgba(28, 48, 48); 
+  border-bottom: 1px solid #1a1a1a;
 }
 
 /* Wymuszenie równych szerokości stref, co gwarantuje wyśrodkowanie panelu środkowego */
