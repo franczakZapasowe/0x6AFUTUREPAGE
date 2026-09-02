@@ -1,126 +1,97 @@
-/* Kontener dla logów pozostaje bez większych zmian, ale możemy go zwęzić, by wyglądał jak prawdziwa konsola */
-.compilation-container {
-  padding: 10px 30px;
-  max-width: 1100px;
-  margin: 0 auto 30px auto;
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-}
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;300;400&display=swap');
 
-.compilation-log {
-  /* Zmiana na jaskrawy, neonowy żółto-bursztynowy z obrazka */
-  color: #e8dc3a;
-  /* Dodajemy efekt "glow", aby tekst świecił jak na starym monitorze */
-  text-shadow: 0 0 6px rgba(232, 220, 58, 0.4);
-  margin-bottom: 4px;
-  animation: writeLog 0.1s ease-out forwards;
-}
-
-@keyframes writeLog {
-  0% { 
-    opacity: 0; 
-    color: #fff; /* Zaczynamy od ostrego białego błysku */
-    text-shadow: 0 0 10px #fff; 
-    transform: translateX(-5px); 
-  }
-  100% { 
-    opacity: 1; 
-    color: #e8dc3a; /* Przejście w docelowy jaskrawy kolor */
-    transform: translateX(0); 
-  }
-}
-
-/* 
-  EFEKT RENDEROWANIA KLATKOWEGO 
-*/
-app-architecture, 
-app-metrics-feed, 
-app-access-protocol, 
-app-capital-projection, /* <--- NOWY KOMPONENT DODANY DO ANIMACJI */
-app-footer {
-  display: block; 
-  /* Animacja trwa 1.2 sekundy i rysuje komponent w 20 mechanicznych skokach */
-  animation: mechanicalRender 1.2s steps(20, end) forwards;
-}
-
-@keyframes mechanicalRender {
-  0% { 
-    clip-path: inset(0 0 100% 0); /* Komponent jest ucięty na samym dole (ukryty) */
-    /* Podbijamy brightness, żeby w trakcie renderowania kolory wręcz "wypalały" ekran */
-    filter: sepia(100%) hue-rotate(90deg) brightness(300%) contrast(150%); 
-  }
-  100% { 
-    clip-path: inset(0 0 0 0); /* Komponent jest w pełni odsłonięty */
-    filter: sepia(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
-  }
-}
-
-/* Kontener ustawiający dwa nowe komponenty obok siebie */
-.hero-split {
+/* --- THE FLATLINE: INSTITUTIONAL BRUTALISM --- */
+.flatline-clinical-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000;
   display: flex;
-  justify-content: space-between; 
+  justify-content: center;
   align-items: center;
+  z-index: 99999;
+  overflow: hidden;
+  font-family: 'JetBrains Mono', monospace;
+  -webkit-font-smoothing: antialiased;
+}
+
+.flatline-wrapper {
+  position: relative;
   width: 100%;
-  max-width: 1350px; 
-  margin: 100px auto;
-  padding: 0 40px;
-  animation: smoothEnter 1.2s ease-out forwards;
-}
-
-/* Dostosowanie na mniejsze ekrany */
-@media (max-width: 1024px) {
-  .hero-split {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 80px;
-  }
-}
-
-/* Definicja animacji wejścia */
-@keyframes smoothEnter {
-  0% {
-    opacity: 0;
-    transform: translateY(10px); 
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0); 
-  }
-}
-
-/* --- NOWY KOD: Kontener ustawiający Access Protocol i Terminal obok siebie --- */
-.bottom-split {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start; 
+  justify-content: center;
+  align-items: center;
+}
+
+/* KRYTYCZNE: Pojedyncza pozioma linia bazowa */
+.baseline-track {
+  position: absolute;
+  top: 50%;
+  left: 0;
   width: 100%;
-  max-width: 1350px; 
-  margin: 60px auto;
+  height: 1px;
+  background-color: rgba(0, 229, 255, 0.15);
+  z-index: 1;
+}
+
+/* Sonar: Jedyna dopuszczalna animacja. Zimny skaner. */
+.baseline-sonar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 1px;
+  background-color: rgba(0, 229, 255, 0.9);
+  animation: clinicalScan 8s linear infinite;
+}
+
+@keyframes clinicalScan {
+  0% { left: 0; opacity: 0; }
+  5% { opacity: 1; }
+  95% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+/* Główny blok przerywający linię bazową. Czarne tło maskuje track. */
+.clinical-core-block {
+  position: relative;
+  z-index: 2;
+  background-color: #000000;
   padding: 0 40px;
-  gap: 60px; 
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Restrykcyjne wyrównanie do lewej */
+  gap: 8px;
 }
 
-/* Wymuszamy, by oba komponenty zajmowały dokładnie tyle samo miejsca w poziomie (po 50%) */
-.bottom-split app-access-protocol,
-.bottom-split app-metrics-feed {
-  flex: 1;
+.text-micro {
+  font-size: 9px;
+  color: #555555;
+  letter-spacing: 1px;
 }
 
-/* PRZESUŃ TERMINAL W DÓŁ */
-/* Wyrównuje wizualnie tekst "/var/log..." z cyjanową ramką Gatekeepera */
-.bottom-split app-metrics-feed {
-  margin-top: 60px; /* <--- JEŚLI BĘDZIE O MILIMETR ZA WYSOKO LUB ZA NISKO, ZMIEŃ TĘ WARTOŚĆ (np. na 55px lub 65px) */
+.text-status {
+  font-size: 14px;
+  color: #CCCCCC;
+  letter-spacing: 2px;
 }
 
-@media (max-width: 1100px) {
-  .bottom-split {
-    flex-direction: column;
-    align-items: center;
-    gap: 40px;
-  }
-  
-  .bottom-split app-metrics-feed {
-    margin-top: 0; /* Na telefonach resetujemy przesunięcie */
-  }
+/* Wymuszenie stałej szerokości znaków, brak efektu glow */
+.text-clock {
+  font-size: 12px;
+  color: #00E5FF;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 1px;
+}
+
+/* Peryferyjna informacja o ekspozycji */
+.perimeter-void-status {
+  position: absolute;
+  bottom: 25px;
+  right: 35px;
+  font-size: 9px;
+  color: #444444;
+  letter-spacing: 2px;
 }
