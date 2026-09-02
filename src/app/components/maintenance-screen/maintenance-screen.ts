@@ -69,11 +69,10 @@ export class MaintenanceScreen implements OnInit, OnDestroy {
       
       this.resumeProgress.set(progress);
       
-      // Fazy kalibracji w zależności od postępu weekendu
-      if (progress < 25) this.currentPhase.set(1);
-      else if (progress < 50) this.currentPhase.set(2);
-      else if (progress < 75) this.currentPhase.set(3);
-      else this.currentPhase.set(4);
+      // Fazy kalibracji - podział na 3 równe doby
+      if (progress < 33.33) this.currentPhase.set(1);
+      else if (progress < 66.66) this.currentPhase.set(2);
+      else this.currentPhase.set(3);
     }, 50);
   }
 
