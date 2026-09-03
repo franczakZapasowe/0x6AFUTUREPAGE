@@ -1,6 +1,118 @@
+/* ========================================= */
+/* ORYGINALNE STYLE (AKTYWNA STRONA)         */
+/* ========================================= */
+
+.compilation-container {
+  padding: 10px 30px;
+  max-width: 1100px;
+  margin: 0 auto 30px auto;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+
+.compilation-log {
+  color: #e8dc3a;
+  text-shadow: 0 0 6px rgba(232, 220, 58, 0.4);
+  margin-bottom: 4px;
+  animation: writeLog 0.1s ease-out forwards;
+}
+
+@keyframes writeLog {
+  0% { 
+    opacity: 0; 
+    color: #fff;
+    text-shadow: 0 0 10px #fff; 
+    transform: translateX(-5px); 
+  }
+  100% { 
+    opacity: 1; 
+    color: #e8dc3a;
+    transform: translateX(0); 
+  }
+}
+
+app-architecture, 
+app-metrics-feed, 
+app-access-protocol, 
+app-capital-projection,
+app-footer {
+  display: block; 
+  animation: mechanicalRender 1.2s steps(20, end) forwards;
+}
+
+@keyframes mechanicalRender {
+  0% { 
+    clip-path: inset(0 0 100% 0);
+    filter: sepia(100%) hue-rotate(90deg) brightness(300%) contrast(150%); 
+  }
+  100% { 
+    clip-path: inset(0 0 0 0);
+    filter: sepia(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
+  }
+}
+
+.hero-split {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  width: 100%;
+  max-width: 1350px; 
+  margin: 100px auto;
+  padding: 0 40px;
+  animation: smoothEnter 1.2s ease-out forwards;
+}
+
+@media (max-width: 1024px) {
+  .hero-split {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 80px;
+  }
+}
+
+@keyframes smoothEnter {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.bottom-split {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; 
+  width: 100%;
+  max-width: 1350px; 
+  margin: 60px auto;
+  padding: 0 40px;
+  gap: 60px; 
+}
+
+.bottom-split app-access-protocol,
+.bottom-split app-metrics-feed {
+  flex: 1;
+}
+
+.bottom-split app-metrics-feed {
+  margin-top: 60px;
+}
+
+@media (max-width: 1100px) {
+  .bottom-split {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+  .bottom-split app-metrics-feed {
+    margin-top: 0;
+  }
+}
+
+/* ========================================= */
+/* THE FLATLINE: INSTITUTIONAL BRUTALISM     */
+/* ========================================= */
+
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;300;400&display=swap');
 
-/* --- THE FLATLINE: INSTITUTIONAL BRUTALISM --- */
 .flatline-clinical-screen {
   position: fixed;
   top: 0;
@@ -25,7 +137,6 @@
   align-items: center;
 }
 
-/* KRYTYCZNE: Pojedyncza pozioma linia bazowa */
 .baseline-track {
   position: absolute;
   top: 50%;
@@ -36,25 +147,6 @@
   z-index: 1;
 }
 
-/* Sonar: Jedyna dopuszczalna animacja. Zimny skaner. */
-.baseline-sonar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 10px;
-  height: 1px;
-  background-color: rgba(0, 229, 255, 0.9);
-  animation: clinicalScan 8s linear infinite;
-}
-
-@keyframes clinicalScan {
-  0% { left: 0; opacity: 0; }
-  5% { opacity: 1; }
-  95% { opacity: 1; }
-  100% { left: 100%; opacity: 0; }
-}
-
-/* Główny blok przerywający linię bazową. Czarne tło maskuje track. */
 .clinical-core-block {
   position: relative;
   z-index: 2;
@@ -62,8 +154,28 @@
   padding: 0 40px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Restrykcyjne wyrównanie do lewej */
+  align-items: flex-start;
   gap: 8px;
+}
+
+.baseline-sonar {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 12px;
+  height: 1px;
+  background-color: #00E5FF;
+  z-index: 3;
+  pointer-events: none;
+  animation: clinicalScan 8s linear infinite;
+  mix-blend-mode: screen; 
+}
+
+@keyframes clinicalScan {
+  0% { left: 0; opacity: 0; }
+  5% { opacity: 1; }
+  95% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
 }
 
 .text-micro {
@@ -76,9 +188,9 @@
   font-size: 14px;
   color: #CCCCCC;
   letter-spacing: 2px;
+  position: relative;
 }
 
-/* Wymuszenie stałej szerokości znaków, brak efektu glow */
 .text-clock {
   font-size: 12px;
   color: #00E5FF;
@@ -86,7 +198,6 @@
   letter-spacing: 1px;
 }
 
-/* Peryferyjna informacja o ekspozycji */
 .perimeter-void-status {
   position: absolute;
   bottom: 25px;

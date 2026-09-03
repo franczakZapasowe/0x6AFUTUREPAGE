@@ -1,23 +1,73 @@
-<section class="projection-section">
-<pre class="code-block"><code><span class="syntax-comment">// ALGORITHM_YIELD_PROJECTION :: 12_MONTH_CYCLE
-// Logic: Capital recalibration post-execution. Returns are generated 
-// on accumulated state, not initial base.</span>
+<section class="projection-engine">
 
-<span class="syntax-month">M_00:</span> <span class="syntax-dollar">$10,000.00</span>  <span class="syntax-comment">[ INITIALIZATION ]</span>
+  <!-- Zunifikowany Header Procesu -->
+  <div class="engine-header">
+    <div class="engine-title">
+      <span class="pulse-dot"></span>
+      ALGORITHM_YIELD_PROJECTION :: SIMULATION_NODE
+    </div>
+    <div class="engine-status" [class.status-done]="!isSimulating()">
+      {{ isSimulating() ? 'PROCESSING_DATASTREAM...' : 'CYCLE_COMPLETE' }}
+    </div>
+  </div>
 
-<span class="syntax-month">M_01:</span> <span class="syntax-dollar">$11,600.00</span>  (+ <span class="syntax-dollar">$1,600.00</span>) :: <span class="syntax-pct">[ +16.0% ]</span>
-<span class="syntax-month">M_02:</span> <span class="syntax-dollar">$12,412.00</span>  (+ <span class="syntax-dollar">$812.00</span>)   :: <span class="syntax-pct">[ +7.0%  ]</span> <span class="syntax-comment">&lt;- Yield calculated on $11,600.00</span>
-<span class="syntax-month">M_03:</span> <span class="syntax-dollar">$13,529.08</span>  (+ <span class="syntax-dollar">$1,117.08</span>) :: <span class="syntax-pct">[ +9.0%  ]</span>
-<span class="syntax-month">M_04:</span> <span class="syntax-dollar">$14,340.82</span>  (+ <span class="syntax-dollar">$811.74</span>)   :: <span class="syntax-pct">[ +6.0%  ]</span>
-<span class="syntax-standby"><span class="syntax-month">M_05:</span> <span class="syntax-dollar">$14,340.82</span>  (+ <span class="syntax-dollar">$0.00</span>)     :: <span class="syntax-comment">[ STANDBY] &lt;- Zero exposure. Capital preserved.</span></span>
-<span class="syntax-month">M_06:</span> <span class="syntax-dollar">$15,774.90</span>  (+ <span class="syntax-dollar">$1,434.08</span>) :: <span class="syntax-pct">[ +10.0% ]</span>
-<span class="syntax-month">M_07:</span> <span class="syntax-dollar">$17,667.89</span>  (+ <span class="syntax-dollar">$1,892.99</span>) :: <span class="syntax-pct">[ +12.0% ]</span>
-<span class="syntax-month">M_08:</span> <span class="syntax-dollar">$18,374.61</span>  (+ <span class="syntax-dollar">$706.72</span>)   :: <span class="syntax-pct">[ +4.0%  ]</span>
-<span class="syntax-month">M_09:</span> <span class="syntax-dollar">$19,844.58</span>  (+ <span class="syntax-dollar">$1,469.97</span>) :: <span class="syntax-pct">[ +8.0%  ]</span>
-<span class="syntax-month">M_10:</span> <span class="syntax-dollar">$22,622.82</span>  (+ <span class="syntax-dollar">$2,778.24</span>) :: <span class="syntax-pct">[ +14.0% ]</span>
-<span class="syntax-month">M_11:</span> <span class="syntax-dollar">$23,753.96</span>  (+ <span class="syntax-dollar">$1,131.14</span>) :: <span class="syntax-pct">[ +5.0%  ]</span>
-<span class="syntax-month">M_12:</span> <span class="syntax-dollar">$26,366.90</span>  (+ <span class="syntax-dollar">$2,612.94</span>) :: <span class="syntax-pct">[ +11.0% ]</span>
+  <div class="engine-body">
+    
+    <!-- LEWA STRONA: Strumień Logów (Matryca) -->
+    <div class="feed-container">
+      <div class="feed-lines">
+        @for (row of displayedSteps(); track row.id) {
+          <!-- Każdy wiersz wjeżdża z animacją błysku -->
+          <div class="feed-row" [class.standby]="row.isStandby">
+            <span class="r-id">{{ row.id }}:</span>
+            <span class="r-cap">{{ row.capital }}</span>
+            <span class="r-gain">{{ row.gain }}</span>
+            <span class="r-pct">{{ row.pct }}</span>
+            @if (row.comment) {
+              <span class="r-comment">{{ row.comment }}</span>
+            }
+          </div>
+        }
+        <!-- Pulsujący kursor aktywny tylko w trakcie liczenia -->
+        @if (isSimulating()) {
+          <div class="feed-row blinking-cursor-row">
+            <span class="block-cursor"></span>
+          </div>
+        }
+      </div>
+      
+      <!-- Stopka merytoryczna -->
+      <div class="feed-footer">
+        // The absolute gain accelerates, even when percentage yield fluctuates.<br>
+        // Time and selective execution become the compounding engine.
+      </div>
+    </div>
 
-<span class="syntax-comment">The absolute gain accelerates, even when percentage yield fluctuates.
-Time and selective execution become the compounding engine.</span></code></pre>
+    <!-- PRAWA STRONA: Gigantyczny HUD Wynikowy -->
+    <div class="hud-container">
+      <div class="hud-block">
+        <span class="hud-label">COMPOUNDED_CAPITAL_PROJECTION</span>
+        <span class="hud-value cap-value">{{ activeCapital() }}</span>
+      </div>
+
+      <div class="hud-block">
+        <span class="hud-label">NET_YIELD_ACCELERATION</span>
+        <span class="hud-value yield-value">{{ activeYield() }}</span>
+      </div>
+
+      <!-- Fizyczny pasek akumulacji -->
+      <div class="accumulation-bar-container">
+        <div class="acc-label">CAPITAL_ACCUMULATION_TRAJECTORY</div>
+        <div class="acc-track">
+          <div class="acc-fill" [style.width.%]="progressPercent()"></div>
+        </div>
+        <div class="acc-scale">
+          <span>$0</span>
+          <span>$10K (START)</span>
+          <span>$26.3K (TARGET)</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </section>

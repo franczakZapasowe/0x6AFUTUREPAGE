@@ -1,71 +1,212 @@
-/* Import ekstermalnie cienkiego fontu (w razie gdyby kontener główny go nie dziedziczył) */
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;300;400;700&display=swap');
 
-.projection-section {
-  display: flex;
-  justify-content: center;
-  padding: 40px 20px;
+/* Główna Rama Silnika */
+.projection-engine {
   width: 100%;
-}
-
-.code-block {
-  background-color: #000000; /* Absolutna czerń */
-  border: 1px solid #1a1a1a; /* Ekstremalnie ciemnoszara ramka */
-  padding: 35px 40px;
-  border-radius: 2px;
-  
-  /* Typografia brutalistyczna */
+  max-width: 1350px;
+  margin: 60px auto;
+  border: 1px solid rgba(0, 229, 255, 0.15);
+  background: #000000;
   font-family: 'JetBrains Mono', 'Space Mono', monospace;
-  font-weight: 100;
-  font-size: 0.85rem;
-  line-height: 1.6;
-  
-  /* Wymuszenie wygładzania fontu dla efektu "wycinania" */
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  
-  /* Brak paska przewijania, idealne ułożenie na sztywno */
-  overflow-x: auto;
-  color: #737A82; /* Kolor domyślny, dla ew. znaków między spanami */
-  
-  /* Reset marginesów z <pre> */
-  margin: 0;
 }
 
-/* --- SYNTAX HIGHLIGHTING --- */
-
-/* Komentarze i tekst poboczny */
-.syntax-comment {
-  color: rgba(255, 255, 255, 0.4); /* Zgaszony, ciemny szary (40% opacity) */
+/* -------------------------------------
+   HEADER: STAN PROCESU
+   ------------------------------------- */
+.engine-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 25px;
+  background: rgba(0, 229, 255, 0.03);
+  border-bottom: 1px solid rgba(0, 229, 255, 0.15);
+  font-size: 0.75rem;
+  letter-spacing: 2px;
 }
 
-/* Miesiące (M_01:) */
-.syntax-month {
-  color: #a0a5b5; /* Jasny, chłodny szary */
+.engine-title {
+  display: flex;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.5);
 }
 
-/* Wartości w dolarach - OSTRA BIEL jako główny punkt odniesienia */
-.syntax-dollar {
+.pulse-dot {
+  width: 6px;
+  height: 6px;
+  background: #00E5FF;
+  box-shadow: 0 0 10px #00E5FF;
+  margin-right: 12px;
+  animation: blink 1s step-end infinite;
+}
+
+.engine-status {
+  color: #00E5FF;
+  font-weight: 300;
+  text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
+}
+
+.status-done {
+  color: rgba(255, 255, 255, 0.3);
+  text-shadow: none;
+}
+
+/* -------------------------------------
+   CIAŁO SILNIKA (SPLIT LAYOUT)
+   ------------------------------------- */
+.engine-body {
+  display: flex;
+  flex-direction: row;
+  padding: 35px 40px;
+  gap: 40px;
+}
+
+@media (max-width: 1050px) {
+  .engine-body {
+    flex-direction: column;
+  }
+}
+
+/* -------------------------------------
+   LEWA STRONA: STRUMIEŃ LOGÓW
+   ------------------------------------- */
+.feed-container {
+  flex: 1.2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.feed-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 100;
+}
+
+/* Animacja Wjazdu Wiersza (Błysk + Przesunięcie) */
+.feed-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  animation: typeRow 0.2s ease-out forwards;
+}
+
+@keyframes typeRow {
+  0% { opacity: 0; transform: translateX(-15px); filter: brightness(250%); }
+  100% { opacity: 1; transform: translateX(0); filter: brightness(100%); }
+}
+
+/* Brutalna dziura na przestój algorytmu (Month 05) */
+.standby {
+  opacity: 0.3;
+}
+
+.r-id { color: #a0a5b5; width: 45px; flex-shrink: 0; }
+.r-cap { color: #ffffff; width: 90px; flex-shrink: 0; text-shadow: 0 0 6px rgba(255, 255, 255, 0.3); font-weight: 300;}
+.r-gain { color: rgba(255, 255, 255, 0.4); width: 100px; flex-shrink: 0; }
+.r-pct { color: #00E5FF; width: 85px; flex-shrink: 0; text-shadow: 0 0 6px rgba(0, 229, 255, 0.3); }
+.r-comment { color: rgba(255, 255, 255, 0.3); font-size: 0.7rem; }
+
+.block-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 14px;
+  background: #00E5FF;
+  animation: blink 0.8s step-end infinite;
+}
+
+.feed-footer {
+  margin-top: 30px;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.2);
+  border-top: 1px dashed rgba(255, 255, 255, 0.1);
+  padding-top: 15px;
+  line-height: 1.6;
+}
+
+/* -------------------------------------
+   PRAWA STRONA: GIGANTYCZNY HUD
+   ------------------------------------- */
+.hud-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 50px; /* Przestrzeń oddychająca między odczytami */
+  border-left: 1px dashed rgba(255, 255, 255, 0.1);
+  padding-left: 50px;
+}
+
+.hud-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hud-label {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 2px;
+}
+
+/* Potężne, stabilne liczby */
+.hud-value {
+  font-size: 2.8rem;
+  font-weight: 100; /* Ekstremalnie cienkie, ostre cięcie */
+  /* Najważniejsza linia CSS: wymusza, by szerokość znaków była równa, co zapobiega skakaniu interfejsu */
+  font-variant-numeric: tabular-nums; 
+  line-height: 1;
+}
+
+.cap-value {
   color: #ffffff;
-  font-weight: 300; /* Minimalnie podbite dla kontrastu świetlnego bieli */
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3); /* Ledwo zauważalna, zimna poświata */
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
 }
 
-/* Wartości procentowe - Lód / Cyjan */
-.syntax-pct {
-  color: #00d8ff;
-  text-shadow: 0 0 6px rgba(0, 216, 255, 0.3);
+.yield-value {
+  color: #00E5FF;
+  text-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
 }
 
-/* Tryb uśpienia / STANDBY */
-.syntax-standby {
-  /* Odcina całą linię do 25% jasności ignorując wewnętrzne kolory. 
-     Tworzy potężny efekt luki (dziury) w aktywności algorytmu. */
-  opacity: 0.25; 
+/* PASEK TRAJEKTORII AKUMULACJI */
+.accumulation-bar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
 }
 
-/* Twardy zakaz interakcji - to statyczny readout, nie zabawka */
-.code-block, .code-block * {
-  pointer-events: none;
-  user-select: none;
+.acc-label {
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 2px;
+}
+
+.acc-track {
+  width: 100%;
+  height: 2px; /* Brutalistycznie cienki */
+  background: rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.acc-fill {
+  height: 100%;
+  background: #00E5FF;
+  box-shadow: 0 0 12px 2px rgba(0, 229, 255, 0.5);
+  /* Płynne podążanie paska za cyframi */
+  transition: width 0.3s ease-out; 
+}
+
+.acc-scale {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }

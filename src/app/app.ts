@@ -26,7 +26,7 @@ import { CapitalProjection } from './components/CapitalProjection/capital-projec
     Observatory,
     ArtifactDisplay,
     LiveStream,
-    CapitalProjection
+    CapitalProjection,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css'

@@ -1,24 +1,20 @@
 <main class="system-container">
   
   @if (isShutDown()) {
-    <!-- THE FLATLINE: INSTITUTIONAL BRUTALISM -->
     <div class="flatline-clinical-screen">
       
       <div class="flatline-wrapper">
-        <!-- Oś kalibracji z przelatującym sonarem -->
-        <div class="baseline-track">
-          <div class="baseline-sonar"></div>
-        </div>
+        <div class="baseline-track"></div>
 
-        <!-- Główny, asymetryczny blok przerwania z maskującym tłem -->
         <div class="clinical-core-block">
           <div class="text-micro">// KERNEL_HALT :: DAILY_ROLLOVER_PROTOCOL</div>
           <div class="text-status">[ EXECUTIONS_LOCKED ] :: LIQUIDITY_GAP</div>
           <div class="text-clock">SYNC_RESUME :: {{ epochSync() }}</div>
         </div>
+
+        <div class="baseline-sonar"></div>
       </div>
 
-      <!-- Odczyt peryferyjny -->
       <div class="perimeter-void-status">EXPOSURE_VECTOR : NULL</div>
 
     </div>
