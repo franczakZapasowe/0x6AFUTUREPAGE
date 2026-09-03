@@ -4,7 +4,8 @@
   <div class="session-data">
     <span>SESSION_HASH: <span class="highlight-cyan">{{ sessionHash() }}</span></span>
     <span class="separator">|</span>
-    <span>ROUTING_NODE: <span class="highlight-white">TYCHY_PL</span></span>
+    <!-- Dynamiczny węzeł bazujący na IP -->
+    <span>ROUTING_NODE: <span class="highlight-white">{{ routingNode() }}</span></span>
     <span class="separator">|</span>
     <span>CONNECTION: <span class="highlight-white">ENCRYPTED</span></span>
   </div>
@@ -16,7 +17,7 @@
 
 </footer>
 
-<!-- Warstwa Blackout (Pojawia się tylko po odpaleniu funkcji terminateConnection) -->
+<!-- Warstwa Blackout -->
 @if (isTerminated()) {
   <div class="blackout-overlay"></div>
 }

@@ -73,7 +73,11 @@ export class LiveStream implements OnInit, OnDestroy, AfterViewChecked {
         // Generuj nieliniowy skok (Twardy limit: nigdy 09/09, więc od 04 do 08)
         const randVal = Math.floor(Math.random() * 5) + 4; 
         const filterStr = `0${randVal}/09`;
-        this.appendLog('FILTER', filterStr, 'val-yellow');
+        
+        // LOGIKA KOLORÓW: Tylko 07 i 08 na pomarańczowo, reszta na biało (val-gray)
+        const colorClass = (randVal === 7 || randVal === 8) ? 'val-yellow' : 'val-gray';
+        
+        this.appendLog('FILTER', filterStr, colorClass);
         
         currentJump++;
         
@@ -113,7 +117,7 @@ export class LiveStream implements OnInit, OnDestroy, AfterViewChecked {
       // Pobieramy absolutnie bieżący czas w ułamku sekundy dodania logu
       const timestamp = this.currentTime();
       
-      // DODAJ TĘ JEDNĄ LINIJKĘ: Wypychamy sygnał na zewnątrz dla HUD (Observatory)
+      // Wypychamy sygnał na zewnątrz dla HUD (Observatory)
       window.dispatchEvent(new CustomEvent('hft-sync', { detail: { key, val, time: timestamp } }));
       
       const newLog = {
