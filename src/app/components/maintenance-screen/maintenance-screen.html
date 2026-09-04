@@ -2,7 +2,6 @@
   
   <div class="fui-grid">
     
-    <!-- SEKCJA 1: Logi Systemowe (Lewa góra) -->
     <div class="fui-panel fui-logs">
       <div class="log-content">
         @for (log of calibrationLogs(); track $index) {
@@ -12,22 +11,18 @@
       </div>
     </div>
 
-    <!-- SEKCJA 2: Status Czasowy (Prawa góra) -->
     <div class="fui-panel fui-timeline">
       <div class="fui-panel-header">[ TEMPORAL CALIBRATION STATUS ]</div>
       
       <div class="timeline-graphic">
         <div class="timeline-track">
-          <!-- Wypełnienie paska -->
           <div class="timeline-fill" [style.width.%]="resumeProgress()"></div>
           
-          <!-- Węzły fazowe (4 fazy kalibracji) -->
           <div class="timeline-node" style="left: 0%;" [class.active]="resumeProgress() >= 0"></div>
           <div class="timeline-node" style="left: 33%;" [class.active]="resumeProgress() >= 33"></div>
           <div class="timeline-node" style="left: 66%;" [class.active]="resumeProgress() >= 66"></div>
           <div class="timeline-node" style="left: 100%;" [class.active]="resumeProgress() >= 100"></div>
           
-          <!-- Ruchomy wskaźnik -->
           <div class="timeline-cursor" [style.left.%]="resumeProgress()">
             <svg width="10" height="10" viewBox="0 0 10 10"><polygon points="5,0 10,10 0,10" fill="#00E5FF"/></svg>
           </div>
@@ -42,7 +37,6 @@
       <div class="fui-phase-label">[ 0x6A ACTIVE CYCLE: PHASE {{ currentPhase() }}/4 ]</div>
     </div>
 
-    <!-- SEKCJA 3: Metadane Systemowe (Lewy dół) -->
     <div class="fui-panel fui-details">
       <div class="fui-panel-header">[ SYSTEM DETAILS ]</div>
       <div class="details-grid">
@@ -62,26 +56,7 @@
       </div>
     </div>
 
-    <!-- SEKCJA 4: Główny schemat (Prawy dół) -->
-    <div class="fui-panel fui-schematic">
-      <!-- Tło schematyczne SVG -->
-      <div class="schematic-bg">
-        <svg width="100%" height="100%" preserveAspectRatio="none">
-          <path d="M 0,50 L 50,50 L 70,20 L 120,20 L 150,80 L 200,80 L 220,50 L 100%,50" fill="none" stroke="rgba(0, 229, 255, 0.15)" stroke-width="2" />
-          <circle cx="70" cy="20" r="4" fill="#00E5FF" opacity="0.5" />
-          <circle cx="150" cy="80" r="4" fill="#00E5FF" opacity="0.5" />
-          <circle cx="220" cy="50" r="4" fill="#00E5FF" opacity="0.5" />
-        </svg>
-      </div>
-
-      <div class="schematic-content">
-        <div class="main-alert">DEEP SYSTEM CALIBRATION INITIATED.</div>
-        <div class="sub-alert">ALL LOGS ARE CONFIDENTIAL.</div>
-      </div>
-    </div>
-
   </div>
   
-  <!-- Mikro pasek dolny -->
   <div class="fui-bottom-bar">Status progress relative to downtime: {{ resumeProgress() | number:'1.2-2' }}%</div>
 </div>

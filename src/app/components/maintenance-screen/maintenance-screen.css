@@ -14,7 +14,7 @@
   overflow: hidden;
 }
 
-/* Główny kontener Grid */
+/* Główny kontener Grid - układ 2x2 zostaje nienaruszony */
 .fui-grid {
   position: relative;
   z-index: 10;
@@ -26,13 +26,12 @@
   max-width: 1100px;
 }
 
-/* Krawędzie i Boxy - TERAZ W 100% PRZEZROCZYSTE */
+/* Krawędzie i Boxy - 100% przezroczyste */
 .fui-panel {
   position: relative;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  background: transparent; /* Absolutna przezroczystość */
+  background: transparent;
   padding: 25px;
-  /* Usunięto całkowicie backdrop-filter (blur) oraz box-shadow (wewnętrzne cienie) */
 }
 
 /* WSPÓLNE NAGŁÓWKI */
@@ -101,7 +100,7 @@
   position: absolute;
   top: -4px;
   width: 10px; height: 10px;
-  background: #000000; /* Zmienione na czyste czarne, by przykrywało linię osi pod spodem */
+  background: #000000;
   border: 2px solid rgba(255, 255, 255, 0.2);
   border-radius: 50%;
   transform: translateX(-50%);
@@ -166,45 +165,6 @@
 @keyframes spin { 100% { transform: rotate(360deg); } }
 @keyframes spinReverse { 100% { transform: rotate(-360deg); } }
 
-/* 4. GŁÓWNY KOMUNIKAT I SCHEMAT */
-.fui-schematic {
-  grid-column: 2 / 3;
-  grid-row: 2 / 3;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 40px 20px;
-}
-
-.schematic-bg {
-  position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.schematic-content {
-  position: relative;
-  z-index: 2;
-}
-
-.main-alert {
-  font-size: 14px;
-  color: #fff;
-  letter-spacing: 2px;
-  margin-bottom: 8px;
-  text-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
-}
-
-.sub-alert {
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.5);
-  letter-spacing: 1px;
-}
-
 /* DOLNY PASEK */
 .fui-bottom-bar {
   position: absolute;
@@ -223,5 +183,4 @@
   .fui-logs { grid-column: 1 / 2; grid-row: 1 / 2; }
   .fui-timeline { grid-column: 1 / 2; grid-row: 2 / 3; }
   .fui-details { grid-column: 1 / 2; grid-row: 3 / 4; }
-  .fui-schematic { grid-column: 1 / 2; grid-row: 4 / 5; }
 }
