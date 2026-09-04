@@ -4,9 +4,6 @@
     
     <!-- SEKCJA 1: Logi Systemowe (Lewa góra) -->
     <div class="fui-panel fui-logs">
-      <div class="fui-corner top-left"></div>
-      <div class="fui-corner bottom-right"></div>
-      
       <div class="log-content">
         @for (log of calibrationLogs(); track $index) {
           <div class="log-line" [class.highlight]="log.includes('[')">{{ log }}</div>
@@ -17,9 +14,6 @@
 
     <!-- SEKCJA 2: Status Czasowy (Prawa góra) -->
     <div class="fui-panel fui-timeline">
-      <div class="fui-corner top-right"></div>
-      <div class="fui-corner bottom-left"></div>
-      
       <div class="fui-panel-header">[ TEMPORAL CALIBRATION STATUS ]</div>
       
       <div class="timeline-graphic">
@@ -70,9 +64,6 @@
 
     <!-- SEKCJA 4: Główny schemat (Prawy dół) -->
     <div class="fui-panel fui-schematic">
-      <div class="fui-corner top-left"></div>
-      <div class="fui-corner bottom-right"></div>
-      
       <!-- Tło schematyczne SVG -->
       <div class="schematic-bg">
         <svg width="100%" height="100%" preserveAspectRatio="none">
