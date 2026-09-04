@@ -209,229 +209,24 @@ app-footer {
 }
 
 /* ========================================= */
-/* DEEP DIAGNOSTIC (VOID LAYOUT)             */
+/* THE GHOST STATE (WEEKEND)                 */
 /* ========================================= */
 
-.diagnostic-void-screen {
+.weekend-ghost-state {
   position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  background-color: #000000;
-  z-index: 99999;
-  font-family: 'JetBrains Mono', monospace;
-  -webkit-font-smoothing: antialiased;
-  overflow: hidden;
-}
-
-/* HEADER - Cienka linia na górze */
-.void-header {
-  position: absolute;
-  top: 10%;
-  left: 10vw;
-  right: 10vw;
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-
-.v-title {
-  font-size: 11px;
-  color: #666;
-  letter-spacing: 2px;
-}
-
-.v-badge {
-  display: flex;
-  align-items: center;
-  font-size: 10px;
-  color: #00E5FF;
-  letter-spacing: 1px;
-}
-
-.v-dot {
-  width: 6px; height: 6px;
-  background-color: #00E5FF;
-  margin-right: 8px;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
-}
-
-/* LEWA KOTWICA - Asymetryczne wyrównanie */
-.void-left-anchor {
-  position: absolute;
-  top: 30%;
-  left: 10vw;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.v-lbl {
-  font-size: 10px;
-  color: #555;
-  letter-spacing: 2px;
-  margin-bottom: 10px;
-}
-
-.v-clock-unix {
-  font-size: 40px; /* Monstrualny rozmiar dla wagi */
-  font-weight: 100;
-  color: #00E5FF;
-  letter-spacing: 1px;
-  font-variant-numeric: tabular-nums;
-  line-height: 1;
-}
-
-.v-clock-human {
-  font-size: 10px;
-  color: #444;
-  letter-spacing: 2px;
-  margin-top: 10px;
-}
-
-/* KINETIC HONEYCOMB */
-.v-honeycomb {
-  display: flex;
-  flex-direction: column;
-  margin-top: 10px;
-}
-
-.v-h-row {
-  display: flex;
-  margin-bottom: -6px;
-}
-.v-h-stagger {
-  margin-left: 14px;
-}
-
-.v-h-cell {
-  width: 28px;
-  height: 32px;
-  margin: 0 1px;
-  overflow: visible;
-}
-
-.v-h-cell polygon {
-  fill: #000000;
-  stroke: rgba(255, 255, 255, 0.08); /* Ekstremalnie cienkie, wyblakłe krawędzie */
-  stroke-width: 1;
-  transition: stroke 0.8s ease-out;
-}
-
-.v-h-text {
-  font-size: 11px;
-  font-family: 'JetBrains Mono', monospace;
-  fill: rgba(255, 255, 255, 0.2); /* Głęboko ukryty tekst */
-}
-
-/* THE HEARTBEAT FLASH */
-.matrix-flash .v-h-cell polygon {
-  stroke: rgba(0, 229, 255, 0.4);
-  transition: stroke 0.05s ease-out;
-}
-.matrix-flash .v-h-cell:nth-child(1) polygon { transition-delay: 0s; }
-.matrix-flash .v-h-cell:nth-child(2) polygon { transition-delay: 0.05s; }
-.matrix-flash .v-h-cell:nth-child(3) polygon { transition-delay: 0.1s; }
-
-/* PRAWA KOTWICA - Płynący strumień logów od środka do prawej krawędzi */
-.void-right-anchor {
-  position: absolute;
-  top: 30%;
-  left: 50vw; /* Logi zaczynają się na środku ekranu */
-  right: 10vw; /* I ciągną się do prawej krawędzi wyrównanej z headerem */
-  bottom: 20%;
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
-  mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
-}
-
-/* BEZWZGLĘDNE TŁUMIENIE KOMPONENTU LOGÓW */
-.void-right-anchor app-metrics-feed {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-.void-right-anchor ::ng-deep .compilation-container,
-.void-right-anchor ::ng-deep .terminal-container,
-.void-right-anchor ::ng-deep .metrics-container {
-  margin: 0 !important;
-  padding: 0 !important;
-  max-width: none !important; 
-  width: 100% !important; 
-  height: 100% !important;
-  border: none !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  display: flex !important;
-  flex-direction: column !important;
-}
-
-.void-right-anchor ::ng-deep .compilation-header,
-.void-right-anchor ::ng-deep .terminal-header {
-  width: 100% !important;
-  max-width: none !important;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-  margin-top: 0 !important;
-  border-bottom: 1px solid rgba(255,255,255,0.05) !important;
-}
-
-.void-right-anchor ::ng-deep .log-stream,
-.void-right-anchor ::ng-deep .terminal-body {
-  width: 100% !important;
-  flex: 1 !important;
-  padding: 0 !important;
-}
-
-.void-right-anchor ::ng-deep .log-line {
-  white-space: nowrap !important;
-}
-
-/* POTĘŻNA OŚ HORYZONTALNA NA DOLE EKRANU */
-.void-footer {
-  position: absolute;
-  bottom: 10%;
-  left: 10vw;
-  right: 10vw;
-  padding-top: 15px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.v-progress-info {
-  display: flex;
-  justify-content: space-between;
-  font-size: 9px;
-  color: #555;
-  letter-spacing: 2px;
-  margin-bottom: 12px;
-}
-
-.v-cyan { color: #00E5FF; }
-
-.v-progress-track {
-  width: 100%;
-  height: 1px; /* Cienki, techniczny liniał */
-  background: rgba(255, 255, 255, 0.1);
-  position: relative;
-}
-
-.v-progress-fill {
-  height: 2px; /* Lekkie podbicie, by pasek twardo siedział na szynie */
-  margin-top: -0.5px;
-  background: #00E5FF;
-  box-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
-  transition: width 1s linear;
-}
-
-@media (max-width: 900px) {
-  .void-right-anchor { display: none; } 
-  .void-left-anchor { left: 5vw; }
-  .void-header { left: 5vw; right: 5vw; }
-  .void-footer { left: 5vw; right: 5vw; }
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  
+  /* Tło transparentne: pozwala pokazać oryginalną tapetę narzuconą na element body */
+  background: transparent; 
+  
+  z-index: 999999;
+  
+  /* Wymuszenie ukrycia kursora myszy na całym ekranie (jak w blackout-overlay) */
+  cursor: none !important;
+  
+  /* Przechwytuje wszystkie zdarzenia myszy - blokuje klikanie */
+  pointer-events: all;
 }

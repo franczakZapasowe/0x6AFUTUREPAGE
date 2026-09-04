@@ -1,0 +1,99 @@
+<div class="fui-calibration-screen">
+  
+  <!-- Gigantyczny, ledwo widoczny Watermark w tle -->
+  <div class="fui-watermark">0x6A</div>
+
+  <div class="fui-grid">
+    
+    <!-- SEKCJA 1: Logi Systemowe (Lewa góra) -->
+    <div class="fui-panel fui-logs">
+      <div class="fui-corner top-left"></div>
+      <div class="fui-corner bottom-right"></div>
+      
+      <div class="log-content">
+        @for (log of calibrationLogs(); track $index) {
+          <div class="log-line" [class.highlight]="log.includes('[')">{{ log }}</div>
+        }
+        <div class="log-line cursor-blink">█</div>
+      </div>
+    </div>
+
+    <!-- SEKCJA 2: Status Czasowy (Prawa góra) -->
+    <div class="fui-panel fui-timeline">
+      <div class="fui-corner top-right"></div>
+      <div class="fui-corner bottom-left"></div>
+      
+      <div class="fui-panel-header">[ TEMPORAL CALIBRATION STATUS ]</div>
+      
+      <div class="timeline-graphic">
+        <div class="timeline-track">
+          <!-- Wypełnienie paska -->
+          <div class="timeline-fill" [style.width.%]="resumeProgress()"></div>
+          
+          <!-- Węzły fazowe (4 fazy kalibracji) -->
+          <div class="timeline-node" style="left: 0%;" [class.active]="resumeProgress() >= 0"></div>
+          <div class="timeline-node" style="left: 33%;" [class.active]="resumeProgress() >= 33"></div>
+          <div class="timeline-node" style="left: 66%;" [class.active]="resumeProgress() >= 66"></div>
+          <div class="timeline-node" style="left: 100%;" [class.active]="resumeProgress() >= 100"></div>
+          
+          <!-- Ruchomy wskaźnik -->
+          <div class="timeline-cursor" [style.left.%]="resumeProgress()">
+            <svg width="10" height="10" viewBox="0 0 10 10"><polygon points="5,0 10,10 0,10" fill="#00E5FF"/></svg>
+          </div>
+        </div>
+        
+        <div class="timeline-labels">
+          <span>Friday<br>00:00</span>
+          <span style="text-align: right;">Monday<br>00:00</span>
+        </div>
+      </div>
+      
+      <div class="fui-phase-label">[ 0x6A ACTIVE CYCLE: PHASE {{ currentPhase() }}/4 ]</div>
+    </div>
+
+    <!-- SEKCJA 3: Metadane Systemowe (Lewy dół) -->
+    <div class="fui-panel fui-details">
+      <div class="fui-panel-header">[ SYSTEM DETAILS ]</div>
+      <div class="details-grid">
+        <span class="d-key">ID:</span><span class="d-val">0x6A-SEC-MNT</span>
+        <span class="d-key">Cluster:</span><span class="d-val">ALPHA-7</span>
+        <span class="d-key">System Version:</span><span class="d-val">v3.12.11-CPP</span>
+        <span class="d-key">Downtime window:</span><span class="d-val"></span>
+        <span class="d-key">FROM:</span><span class="d-val">FRI 00:00 GMT+1</span>
+        <span class="d-key">TO:</span><span class="d-val">MON 00:00 GMT+1</span>
+      </div>
+      
+      <div class="fui-spinner">
+        <svg width="24" height="24" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10" stroke="rgba(0,229,255,0.3)" stroke-width="2" fill="none" stroke-dasharray="15 15" class="spin-slow" />
+          <circle cx="12" cy="12" r="6" stroke="rgba(0,229,255,0.6)" stroke-width="1" fill="none" stroke-dasharray="5 5" class="spin-fast-reverse" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- SEKCJA 4: Główny schemat (Prawy dół) -->
+    <div class="fui-panel fui-schematic">
+      <div class="fui-corner top-left"></div>
+      <div class="fui-corner bottom-right"></div>
+      
+      <!-- Tło schematyczne SVG -->
+      <div class="schematic-bg">
+        <svg width="100%" height="100%" preserveAspectRatio="none">
+          <path d="M 0,50 L 50,50 L 70,20 L 120,20 L 150,80 L 200,80 L 220,50 L 100%,50" fill="none" stroke="rgba(0, 229, 255, 0.15)" stroke-width="2" />
+          <circle cx="70" cy="20" r="4" fill="#00E5FF" opacity="0.5" />
+          <circle cx="150" cy="80" r="4" fill="#00E5FF" opacity="0.5" />
+          <circle cx="220" cy="50" r="4" fill="#00E5FF" opacity="0.5" />
+        </svg>
+      </div>
+
+      <div class="schematic-content">
+        <div class="main-alert">DEEP SYSTEM CALIBRATION INITIATED.</div>
+        <div class="sub-alert">ALL LOGS ARE CONFIDENTIAL.</div>
+      </div>
+    </div>
+
+  </div>
+  
+  <!-- Mikro pasek dolny -->
+  <div class="fui-bottom-bar">Status progress relative to downtime: {{ resumeProgress() | number:'1.2-2' }}%</div>
+</div>

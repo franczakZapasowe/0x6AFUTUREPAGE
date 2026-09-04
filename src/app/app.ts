@@ -12,6 +12,8 @@ import { Observatory } from './components/observatory/observatory';
 import { ArtifactDisplay } from './components/artifact-display/artifact-display';
 import { LiveStream } from './components/live-stream/live-stream';
 import { CapitalProjection } from './components/CapitalProjection/capital-projection';
+// Dodajemy nowy import komponentu kalibracji weekendowej
+import { MaintenanceScreen } from './components/maintenance-screen/maintenance-screen'; 
 
 @Component({
   selector: 'app-root',
@@ -29,6 +31,7 @@ import { CapitalProjection } from './components/CapitalProjection/capital-projec
     ArtifactDisplay,
     LiveStream,
     CapitalProjection,
+    MaintenanceScreen // Deklaracja dla Angulara
   ],
   templateUrl: './app.html',
   styleUrl: './app.css'

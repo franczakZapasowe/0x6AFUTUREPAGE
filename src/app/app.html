@@ -1,89 +1,9 @@
 <main class="system-container">
   
   @if (isWeekend()) {
-    <!-- DEEP DIAGNOSTIC (ASYMETRYCZNA PUSTKA) -->
-    <div class="diagnostic-void-screen">
-      
-      <!-- Cienka linia nagłówkowa (Top Anchor) -->
-      <div class="void-header">
-        <span class="v-title">// 0x6A_KERNEL_LOCKDOWN</span>
-        <span class="v-badge"><span class="v-dot"></span> DEEP_DIAGNOSTIC</span>
-      </div>
-
-      <!-- Lewa Kotwica - Odcięta asymetrycznie -->
-      <div class="void-left-anchor">
-        <div class="v-lbl">EPOCH_RESUME_TARGET</div>
-        <div class="v-clock-unix">{{ unixEpoch() }}</div>
-        <div class="v-clock-human">T-MINUS {{ humanCountdown() }}</div>
-
-        <div class="v-lbl" style="margin-top: 40px;">CRYPTOGRAPHIC_AUDIT</div>
-        
-        <!-- KINETIC HEX-LOCK -->
-        <div class="v-honeycomb" [class.matrix-flash]="hexPulse()">
-          <div class="v-h-row">
-            <svg class="v-h-cell" viewBox="0 0 100 100">
-              <polygon points="50,0 100,25 100,75 50,100 0,75 0,25"/>
-              <text x="50" y="55" class="v-h-text" text-anchor="middle" dominant-baseline="middle">{{ hexMatrixNodes()[0] }}</text>
-            </svg>
-            <svg class="v-h-cell" viewBox="0 0 100 100">
-              <polygon points="50,0 100,25 100,75 50,100 0,75 0,25"/>
-              <text x="50" y="55" class="v-h-text" text-anchor="middle" dominant-baseline="middle">{{ hexMatrixNodes()[1] }}</text>
-            </svg>
-            <svg class="v-h-cell" viewBox="0 0 100 100">
-              <polygon points="50,0 100,25 100,75 50,100 0,75 0,25"/>
-              <text x="50" y="55" class="v-h-text" text-anchor="middle" dominant-baseline="middle">{{ hexMatrixNodes()[2] }}</text>
-            </svg>
-          </div>
-          <div class="v-h-row v-h-stagger">
-            <svg class="v-h-cell" viewBox="0 0 100 100">
-              <polygon points="50,0 100,25 100,75 50,100 0,75 0,25"/>
-              <text x="50" y="55" class="v-h-text" text-anchor="middle" dominant-baseline="middle">{{ hexMatrixNodes()[3] }}</text>
-            </svg>
-            <svg class="v-h-cell" viewBox="0 0 100 100">
-              <polygon points="50,0 100,25 100,75 50,100 0,75 0,25"/>
-              <text x="50" y="55" class="v-h-text" text-anchor="middle" dominant-baseline="middle">{{ hexMatrixNodes()[4] }}</text>
-            </svg>
-            <svg class="v-h-cell" viewBox="0 100 100">
-              <polygon points="50,0 100,25 100,75 50,100 0,75 0,25"/>
-              <text x="50" y="55" class="v-h-text" text-anchor="middle" dominant-baseline="middle">{{ hexMatrixNodes()[5] }}</text>
-            </svg>
-          </div>
-          <div class="v-h-row">
-            <svg class="v-h-cell" viewBox="0 0 100 100">
-              <polygon points="50,0 100,25 100,75 50,100 0,75 0,25"/>
-              <text x="50" y="55" class="v-h-text" text-anchor="middle" dominant-baseline="middle">{{ hexMatrixNodes()[6] }}</text>
-            </svg>
-            <svg class="v-h-cell" viewBox="0 100 100">
-              <polygon points="50,0 100,25 100,75 50,100 0,75 0,25"/>
-              <text x="50" y="55" class="v-h-text" text-anchor="middle" dominant-baseline="middle">{{ hexMatrixNodes()[7] }}</text>
-            </svg>
-            <svg class="v-h-cell" viewBox="0 0 100 100">
-              <polygon points="50,0 100,25 100,75 50,100 0,75 0,25"/>
-              <text x="50" y="55" class="v-h-text" text-anchor="middle" dominant-baseline="middle">{{ hexMatrixNodes()[8] }}</text>
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      <!-- Prawa Flanka - Płynący strumień natywny -->
-      <div class="void-right-anchor">
-        <app-metrics-feed></app-metrics-feed>
-      </div>
-
-      <!-- Potężna oś horyzontalna bazy -->
-      <div class="void-footer">
-        <div class="v-progress-info">
-          <span>RESUME_TRAJECTORY</span>
-          <span class="v-cyan">{{ resumeProgress() | number:'1.2-2' }}%</span>
-        </div>
-        <div class="v-progress-track">
-          <div class="v-progress-fill" [style.width.%]="resumeProgress()"></div>
-        </div>
-      </div>
-
-    </div>
+    <app-maintenance-screen></app-maintenance-screen>
+    
   } @else if (isShutDown()) {
-    <!-- THE FLATLINE (Zwykłe Dni 23:00 - 00:00) -->
     <div class="flatline-clinical-screen">
       <div class="flatline-wrapper">
         <div class="baseline-track"></div>
@@ -97,10 +17,8 @@
       <div class="perimeter-void-status">EXPOSURE_VECTOR : NULL</div>
     </div>
   } @else if (systemState() === 'locked') {
-    <!-- EKRAN LOGOWANIA -->
     <app-hero-terminal (bootSequenceComplete)="startBootSequence()"></app-hero-terminal>
   } @else {
-    <!-- NORMALNA STRONA AKTYWNA -->
     <app-header></app-header>
     
     <div class="hero-split">
