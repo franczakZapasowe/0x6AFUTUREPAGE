@@ -29,7 +29,6 @@
 /* Krawędzie i Boxy - 100% przezroczyste */
 .fui-panel {
   position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.08);
   background: transparent;
   padding: 25px;
 }
