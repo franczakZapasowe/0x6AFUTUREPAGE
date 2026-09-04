@@ -4,7 +4,7 @@
   position: fixed;
   top: 0; left: 0;
   width: 100vw; height: 100vh;
-  background-color: #050505; /* Prawie czarna zieleń/grafit z obrazka */
+  background: transparent; /* Kluczowe: pozwala odsłonić Twoją oryginalną tapetę i logo z body */
   z-index: 99999;
   display: flex;
   justify-content: center;
@@ -12,18 +12,6 @@
   font-family: 'JetBrains Mono', monospace;
   -webkit-font-smoothing: antialiased;
   overflow: hidden;
-}
-
-/* Duży, rozmyty watermark w tle */
-.fui-watermark {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 45vw;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.015);
-  pointer-events: none;
-  z-index: 0;
 }
 
 /* Główny kontener Grid */
@@ -42,7 +30,8 @@
 .fui-panel {
   position: relative;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.65); /* Lekko ściemnione dla zachowania czytelności na tle Twojego logo */
+  backdrop-filter: blur(3px); /* Eleganckie rozmycie tapety tuż pod samymi kwadratami */
   padding: 25px;
   box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8);
 }
