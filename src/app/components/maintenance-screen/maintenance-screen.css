@@ -14,6 +14,22 @@
   overflow: hidden;
 }
 
+/* CENTRALNY SPINNER NA ŚRODKU EKRANU */
+.fui-center-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5; /* Pod tekstem z grida, nad tłem */
+  pointer-events: none;
+}
+
+.spin-slow { animation: spin 8s linear infinite; transform-origin: center; }
+.spin-fast-reverse { animation: spinReverse 3s linear infinite; transform-origin: center; }
+
+@keyframes spin { 100% { transform: rotate(360deg); } }
+@keyframes spinReverse { 100% { transform: rotate(-360deg); } }
+
 /* Główny kontener Grid - układ 2x2 zostaje nienaruszony */
 .fui-grid {
   position: relative;
@@ -151,18 +167,6 @@
 
 .d-key { color: rgba(255, 255, 255, 0.4); }
 .d-val { color: rgba(255, 255, 255, 0.8); }
-
-.fui-spinner {
-  position: absolute;
-  right: 25px;
-  bottom: 25px;
-}
-
-.spin-slow { animation: spin 8s linear infinite; transform-origin: center; }
-.spin-fast-reverse { animation: spinReverse 3s linear infinite; transform-origin: center; }
-
-@keyframes spin { 100% { transform: rotate(360deg); } }
-@keyframes spinReverse { 100% { transform: rotate(-360deg); } }
 
 /* DOLNY PASEK */
 .fui-bottom-bar {
