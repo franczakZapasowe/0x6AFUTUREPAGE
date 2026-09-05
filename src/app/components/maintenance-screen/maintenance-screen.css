@@ -4,7 +4,8 @@
   position: fixed;
   top: 0; left: 0;
   width: 100vw; height: 100vh;
-  background: transparent; 
+  /* Odcięcie statycznej tapety pod spodem. Czysta czerń. */
+  background: #000000; 
   z-index: 99999;
   display: flex;
   justify-content: center;
@@ -14,39 +15,50 @@
   overflow: hidden;
 }
 
-/* CENTRALNY SPINNER NA ŚRODKU EKRANU */
-.fui-center-spinner {
-  position: absolute;
+/* OBRACAJĄCE SIĘ LOGO */
+.fui-rotating-logo {
+  position: absolute; 
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 5; /* Pod tekstem z grida, nad tłem */
+  width: 600px;
+  height: 600px;
+  margin-top: -300px; 
+  margin-left: -300px; 
+  
+  background-image: url('/pic/logo-removebg-preview.png'); 
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  z-index: 1; /* Pod wszystkim */
+  opacity: 0.15; /* Słabo widoczne, jak duch */
   pointer-events: none;
+  
+  animation: majestaticSpin 30s linear infinite reverse;
 }
 
-.spin-slow { animation: spin 8s linear infinite; transform-origin: center; }
-.spin-fast-reverse { animation: spinReverse 3s linear infinite; transform-origin: center; }
-
-@keyframes spin { 100% { transform: rotate(360deg); } }
-@keyframes spinReverse { 100% { transform: rotate(-360deg); } }
+@keyframes majestaticSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 
 /* Główny kontener Grid - układ 2x2 zostaje nienaruszony */
 .fui-grid {
   position: relative;
   z-index: 10;
   display: grid;
-  grid-template-columns: 1.2fr 1fr; /* Lewa strona z logami nieco szersza */
+  grid-template-columns: 1.2fr 1fr;
   grid-template-rows: auto auto;
-  gap: 20px;
-  width: 90%;
-  max-width: 1100px;
+  gap: 80px 60px; /* Ogromny oddech między sekcjami */
+  width: 85%;
+  max-width: 1200px;
 }
 
-/* Krawędzie i Boxy - 100% przezroczyste */
+/* Panele to teraz wyłącznie niewidzialne rusztowania */
 .fui-panel {
   position: relative;
-  background: transparent;
-  padding: 25px;
+  display: flex;
+  flex-direction: column;
 }
 
 /* WSPÓLNE NAGŁÓWKI */
@@ -54,33 +66,46 @@
   font-size: 13px;
   color: #00E5FF;
   letter-spacing: 2px;
-  margin-bottom: 20px;
+  margin-bottom: 25px; 
 }
 
 /* 1. SEKCJA LOGÓW */
 .fui-logs {
   grid-column: 1 / 2;
   grid-row: 1 / 2;
-  min-height: 280px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  height: 340px; 
+  padding: 0;
+  overflow: hidden; 
 }
 
 .log-content {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.6);
-  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.5); 
+  line-height: 1.9;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; 
+}
+
+.log-line {
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .log-line.highlight {
   color: #00E5FF;
+  margin-top: 15px; 
+  margin-bottom: 5px;
+  white-space: normal; 
 }
 
 .cursor-blink {
   display: inline-block;
   color: #00E5FF;
   animation: blink 1s step-end infinite;
+  margin-top: 5px;
 }
 @keyframes blink { 50% { opacity: 0; } }
 
@@ -93,7 +118,7 @@
 }
 
 .timeline-graphic {
-  margin-top: 30px;
+  margin-top: 15px;
   position: relative;
 }
 
@@ -115,7 +140,7 @@
   position: absolute;
   top: -4px;
   width: 10px; height: 10px;
-  background: #000000;
+  background: #000000; 
   border: 2px solid rgba(255, 255, 255, 0.2);
   border-radius: 50%;
   transform: translateX(-50%);
@@ -124,6 +149,7 @@
 
 .timeline-node.active {
   border-color: #00E5FF;
+  background: #000000;
   box-shadow: 0 0 8px #00E5FF;
 }
 
@@ -139,11 +165,11 @@
   justify-content: space-between;
   margin-top: 20px;
   font-size: 10px;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.3); 
 }
 
 .fui-phase-label {
-  margin-top: auto; /* Wypycha na dół boxa */
+  margin-top: 50px; 
   text-align: center;
   font-size: 12px;
   color: #00E5FF;
@@ -155,26 +181,27 @@
   grid-column: 1 / 2;
   grid-row: 2 / 3;
   position: relative;
+  padding: 0;
 }
 
 .details-grid {
   display: grid;
   grid-template-columns: auto 1fr;
-  row-gap: 8px;
-  column-gap: 15px;
+  row-gap: 12px; 
+  column-gap: 20px;
   font-size: 11px;
 }
 
-.d-key { color: rgba(255, 255, 255, 0.4); }
-.d-val { color: rgba(255, 255, 255, 0.8); }
+.d-key { color: rgba(255, 255, 255, 0.3); }
+.d-val { color: rgba(255, 255, 255, 0.7); }
 
 /* DOLNY PASEK */
 .fui-bottom-bar {
   position: absolute;
-  bottom: 20px;
+  bottom: 25px;
   right: 5%;
   font-size: 9px;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.2);
   letter-spacing: 2px;
 }
 
@@ -182,8 +209,9 @@
 @media (max-width: 900px) {
   .fui-grid {
     grid-template-columns: 1fr;
+    gap: 60px;
   }
-  .fui-logs { grid-column: 1 / 2; grid-row: 1 / 2; }
+  .fui-logs { grid-column: 1 / 2; grid-row: 1 / 2; height: 250px; }
   .fui-timeline { grid-column: 1 / 2; grid-row: 2 / 3; }
   .fui-details { grid-column: 1 / 2; grid-row: 3 / 4; }
 }
