@@ -1,37 +1,50 @@
 <div class="fui-calibration-screen">
   
+  <!-- OBRACAJĄCE SIĘ LOGO W TLE -->
   <div class="fui-rotating-logo"></div>
 
-  <div class="fui-grid">
+  <div class="fui-layout-container">
     
-    <div class="fui-panel fui-logs">
-      <div class="log-content">
-        @for (log of calibrationLogs(); track $index) {
-          <div class="log-line" [class.highlight]="log.includes('[')">{{ log }}</div>
-        }
-        <div class="log-line cursor-blink">█</div>
+    <!-- KOLUMNA LEWA -->
+    <div class="fui-col-left">
+      <!-- SEKCJA 1: Logi Systemowe -->
+      <div class="fui-panel fui-logs">
+        <div class="log-content">
+          @for (log of calibrationLogs(); track $index) {
+            <div class="log-line" [class.highlight]="log.includes('[')">{{ log }}</div>
+          }
+          <div class="log-line cursor-blink">█</div>
+        </div>
+      </div>
+
+      <!-- SEKCJA 2: Metadane Systemowe -->
+      <div class="fui-panel fui-details">
+        <div class="fui-panel-header">[ SYSTEM DETAILS ]</div>
+        <div class="details-grid">
+          <span class="d-key">ID:</span><span class="d-val">0x6A-SEC-MNT</span>
+          <span class="d-key">Cluster:</span><span class="d-val">ALPHA-7</span>
+          <span class="d-key">System Version:</span><span class="d-val">v3.12.11-CPP</span>
+          <span class="d-key">Downtime window:</span><span class="d-val"></span>
+          <span class="d-key">FROM:</span><span class="d-val">FRI 00:00 GMT+1</span>
+          <span class="d-key">TO:</span><span class="d-val">MON 00:00 GMT+1</span>
+        </div>
       </div>
     </div>
 
-    <div class="fui-panel fui-ascii-progress">
-      <div class="ascii-header">[ REBUILDING 0x6A DEPENDENCIES ]</div>
-      <div class="ascii-row">Processing chunk <span class="accent">{{ asciiChunk() }}</span>...</div>
-      <div class="ascii-row">
-        <span class="bar">{{ asciiProgressBar() }}</span> <span class="accent">{{ asciiPercentage() }}</span>
+    <!-- KOLUMNA PRAWA -->
+    <div class="fui-col-right">
+      <!-- SEKCJA 3: ASCII Progress Bar -->
+      <div class="fui-panel fui-ascii-progress">
+        <div class="fui-panel-header">[ REBUILDING 0x6A DEPENDENCIES ]</div>
+        <div class="ascii-row">Processing chunk <span class="accent">{{ asciiChunk() }}</span>...</div>
+        <div class="ascii-row">
+          <span class="bar">{{ asciiProgressBar() }}</span> <span class="accent">{{ asciiPercentage() }}</span>
+        </div>
+        <div class="ascii-row">> status: isolating redundant cycles</div>
       </div>
-      <div class="ascii-row">> status: isolating redundant cycles</div>
-    </div>
-
-    <div class="fui-panel fui-details">
-      <div class="fui-panel-header">[ SYSTEM DETAILS ]</div>
-      <div class="details-grid">
-        <span class="d-key">ID:</span><span class="d-val">0x6A-SEC-MNT</span>
-        <span class="d-key">Cluster:</span><span class="d-val">ALPHA-7</span>
-        <span class="d-key">System Version:</span><span class="d-val">v3.12.11-CPP</span>
-        <span class="d-key">Downtime window:</span><span class="d-val"></span>
-        <span class="d-key">FROM:</span><span class="d-val">FRI 00:00 GMT+1</span>
-        <span class="d-key">TO:</span><span class="d-val">MON 00:00 GMT+1</span>
-      </div>
+      
+      <!-- Opcjonalny, dodatkowy blok w prawej kolumnie, żeby nie było pusto -->
+      <!-- Zrzut z pamięci, o którym rozmawialiśmy, albo puste miejsce na asymetrię -->
     </div>
 
   </div>
