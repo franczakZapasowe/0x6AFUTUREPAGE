@@ -4,7 +4,7 @@
   position: fixed;
   top: 0; left: 0;
   width: 100vw; height: 100vh;
-  /* Odcięcie statycznej tapety pod spodem. Czysta czerń. */
+  /* Absolutna, brutalna czerń */
   background: #000000; 
   z-index: 99999;
   display: flex;
@@ -17,7 +17,7 @@
 
 /* OBRACAJĄCE SIĘ LOGO */
 .fui-rotating-logo {
-  position: absolute; 
+  position: absolute;
   top: 50%;
   left: 50%;
   width: 600px;
@@ -30,8 +30,8 @@
   background-position: center;
   background-repeat: no-repeat;
   
-  z-index: 1; /* Pod wszystkim */
-  opacity: 0.15; /* Słabo widoczne, jak duch */
+  z-index: 1; 
+  opacity: 0.02; 
   pointer-events: none;
   
   animation: majestaticSpin 30s linear infinite reverse;
@@ -42,14 +42,14 @@
   100% { transform: rotate(360deg); }
 }
 
-/* Główny kontener Grid - układ 2x2 zostaje nienaruszony */
+/* Główny kontener Grid - WYRÓWNANO KOLUMNY DO 1:1 */
 .fui-grid {
   position: relative;
   z-index: 10;
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
+  grid-template-columns: 1fr 1fr; /* Lewa i prawa strona są teraz idealnie równe */
   grid-template-rows: auto auto;
-  gap: 80px 60px; /* Ogromny oddech między sekcjami */
+  gap: 80px 40px; 
   width: 85%;
   max-width: 1200px;
 }
@@ -57,12 +57,12 @@
 /* Panele to teraz wyłącznie niewidzialne rusztowania */
 .fui-panel {
   position: relative;
-  display: flex;
-  flex-direction: column;
+  background: transparent;
+  padding: 0; 
 }
 
-/* WSPÓLNE NAGŁÓWKI */
-.fui-panel-header {
+/* WSPÓLNE NAGŁÓWKI (Przywrócono cyjan) */
+.fui-panel-header, .ascii-header {
   font-size: 13px;
   color: #00E5FF;
   letter-spacing: 2px;
@@ -73,15 +73,14 @@
 .fui-logs {
   grid-column: 1 / 2;
   grid-row: 1 / 2;
-  height: 340px; 
-  padding: 0;
+  height: 380px; 
   overflow: hidden; 
 }
 
 .log-content {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.5); 
-  line-height: 1.9;
+  color: #666666; 
+  line-height: 1.8;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -94,8 +93,9 @@
   text-overflow: ellipsis;
 }
 
+/* Wyróżnienia (np. nagłówki [ ... ]) */
 .log-line.highlight {
-  color: #00E5FF;
+  color: #cccccc; 
   margin-top: 15px; 
   margin-bottom: 5px;
   white-space: normal; 
@@ -103,107 +103,55 @@
 
 .cursor-blink {
   display: inline-block;
-  color: #00E5FF;
+  color: #cccccc;
   animation: blink 1s step-end infinite;
   margin-top: 5px;
 }
 @keyframes blink { 50% { opacity: 0; } }
 
-/* 2. STATUS KALIBRACJI CZASOWEJ */
-.fui-timeline {
+
+/* 2. SEKCJA PASKU ASCII */
+.fui-ascii-progress {
   grid-column: 2 / 3;
   grid-row: 1 / 2;
   display: flex;
   flex-direction: column;
-}
-
-.timeline-graphic {
-  margin-top: 15px;
-  position: relative;
-}
-
-.timeline-track {
-  width: 100%;
-  height: 2px;
-  background: rgba(255, 255, 255, 0.1);
-  position: relative;
-}
-
-.timeline-fill {
-  height: 100%;
-  background: #00E5FF;
-  box-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
-  transition: width 1s linear;
-}
-
-.timeline-node {
-  position: absolute;
-  top: -4px;
-  width: 10px; height: 10px;
-  background: #000000; 
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  transform: translateX(-50%);
-  transition: border-color 0.5s, box-shadow 0.5s;
-}
-
-.timeline-node.active {
-  border-color: #00E5FF;
-  background: #000000;
-  box-shadow: 0 0 8px #00E5FF;
-}
-
-.timeline-cursor {
-  position: absolute;
-  top: 8px; /* Strzałka pod spodem paska */
-  transform: translateX(-50%);
-  transition: left 1s linear;
-}
-
-.timeline-labels {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.3); 
-}
-
-.fui-phase-label {
-  margin-top: 50px; 
-  text-align: center;
   font-size: 12px;
-  color: #00E5FF;
-  letter-spacing: 2px;
+  color: #666666;
+  line-height: 2.2;
+}
+
+.ascii-row {
+  white-space: nowrap;
+}
+
+/* Pasek z bloków ASCII */
+.ascii-row .bar {
+  letter-spacing: 1px;
+  color: #888888; 
+}
+
+/* Zgaszony, chłodny akcent (brudny niebieski/stalowy) tylko dla kluczowych danych */
+.accent {
+  color: #7b9fa6; 
 }
 
 /* 3. METADANE SYSTEMOWE */
 .fui-details {
   grid-column: 1 / 2;
   grid-row: 2 / 3;
-  position: relative;
-  padding: 0;
 }
 
 .details-grid {
   display: grid;
   grid-template-columns: auto 1fr;
   row-gap: 12px; 
-  column-gap: 20px;
+  column-gap: 30px;
   font-size: 11px;
 }
 
-.d-key { color: rgba(255, 255, 255, 0.3); }
-.d-val { color: rgba(255, 255, 255, 0.7); }
-
-/* DOLNY PASEK */
-.fui-bottom-bar {
-  position: absolute;
-  bottom: 25px;
-  right: 5%;
-  font-size: 9px;
-  color: rgba(255, 255, 255, 0.2);
-  letter-spacing: 2px;
-}
+.d-key { color: #555555; }
+.d-val { color: #a0a0a0; }
 
 /* RESPONSIVE */
 @media (max-width: 900px) {
@@ -212,6 +160,6 @@
     gap: 60px;
   }
   .fui-logs { grid-column: 1 / 2; grid-row: 1 / 2; height: 250px; }
-  .fui-timeline { grid-column: 1 / 2; grid-row: 2 / 3; }
+  .fui-ascii-progress { grid-column: 1 / 2; grid-row: 2 / 3; }
   .fui-details { grid-column: 1 / 2; grid-row: 3 / 4; }
 }

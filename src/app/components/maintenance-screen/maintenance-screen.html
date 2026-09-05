@@ -1,11 +1,9 @@
 <div class="fui-calibration-screen">
   
-  <!-- OBRACAJĄCE SIĘ, GIGANTYCZNE LOGO W TLE -->
   <div class="fui-rotating-logo"></div>
 
   <div class="fui-grid">
     
-    <!-- SEKCJA 1: Logi Systemowe (Lewa góra) -->
     <div class="fui-panel fui-logs">
       <div class="log-content">
         @for (log of calibrationLogs(); track $index) {
@@ -15,37 +13,15 @@
       </div>
     </div>
 
-    <!-- SEKCJA 2: Status Czasowy (Prawa góra) -->
-    <div class="fui-panel fui-timeline">
-      <div class="fui-panel-header">[ TEMPORAL CALIBRATION STATUS ]</div>
-      
-      <div class="timeline-graphic">
-        <div class="timeline-track">
-          <!-- Wypełnienie paska -->
-          <div class="timeline-fill" [style.width.%]="resumeProgress()"></div>
-          
-          <!-- Węzły fazowe (3 fazy odpowiadające trzem dobom) -->
-          <div class="timeline-node" style="left: 0%;" [class.active]="resumeProgress() >= 0"></div>
-          <div class="timeline-node" style="left: 33.33%;" [class.active]="resumeProgress() >= 33.33"></div>
-          <div class="timeline-node" style="left: 66.66%;" [class.active]="resumeProgress() >= 66.66"></div>
-          <div class="timeline-node" style="left: 100%;" [class.active]="resumeProgress() >= 100"></div>
-          
-          <!-- Ruchomy wskaźnik -->
-          <div class="timeline-cursor" [style.left.%]="resumeProgress()">
-            <svg width="10" height="10" viewBox="0 0 10 10"><polygon points="5,0 10,10 0,10" fill="#00E5FF"/></svg>
-          </div>
-        </div>
-        
-        <div class="timeline-labels">
-          <span>Friday<br>00:00</span>
-          <span style="text-align: right;">Monday<br>00:00</span>
-        </div>
+    <div class="fui-panel fui-ascii-progress">
+      <div class="ascii-header">[ REBUILDING 0x6A DEPENDENCIES ]</div>
+      <div class="ascii-row">Processing chunk <span class="accent">{{ asciiChunk() }}</span>...</div>
+      <div class="ascii-row">
+        <span class="bar">{{ asciiProgressBar() }}</span> <span class="accent">{{ asciiPercentage() }}</span>
       </div>
-      
-      <div class="fui-phase-label">[ 0x6A ACTIVE CYCLE: PHASE {{ currentPhase() }}/3 ]</div>
+      <div class="ascii-row">> status: isolating redundant cycles</div>
     </div>
 
-    <!-- SEKCJA 3: Metadane Systemowe (Lewy dół) -->
     <div class="fui-panel fui-details">
       <div class="fui-panel-header">[ SYSTEM DETAILS ]</div>
       <div class="details-grid">
@@ -59,7 +35,4 @@
     </div>
 
   </div>
-  
-  <!-- Mikro pasek dolny -->
-  <div class="fui-bottom-bar">Status progress relative to downtime: {{ resumeProgress() | number:'1.2-2' }}%</div>
 </div>

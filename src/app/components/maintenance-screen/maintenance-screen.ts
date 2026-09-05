@@ -1,35 +1,36 @@
 import { Component, signal, OnInit, OnDestroy } from '@angular/core';
-import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-maintenance-screen',
   standalone: true,
-  imports: [DecimalPipe],
   templateUrl: './maintenance-screen.html',
   styleUrl: './maintenance-screen.css'
 })
 export class MaintenanceScreen implements OnInit, OnDestroy {
-  resumeProgress = signal<number>(0); 
-  currentPhase = signal<number>(1);
+  // Pasek postępu ASCII i jego detale
+  asciiProgressBar = signal<string>('[░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░]');
+  asciiPercentage = signal<string>('0.0%');
+  asciiChunk = signal<string>('0/72');
   
   calibrationLogs = signal<string[]>([
-    "[ 0x6A SYSTEM MAINTENANCE PROTOCOL INITIATED ]",
-    "System Offline: Deep Calibration Cycle in Progress",
+    "INIT: ROOT KERNEL BOOT SEQUENCE",
+    "Loading configuration parameters... OK",
     "--------------------------------------------------",
-    "[ ANALYZING SECTORS ... ]"
+    "Awaiting sector mapping..."
   ]);
   
-  private msInterval: any;
   private logId: any;
+  private asciiId: any;
+  private msInterval: any;
 
-  // Pula realistycznych logów serwisowych
+  // Surowe logi systemowe
   private logPool = [
     "0x00A1: Core integrity check... OK",
     "0x01B2: Database sector mapping... OK",
     "0x02C3: Cache fragmentation check... OK",
     "0x03D4: Fault isolation routing... ERROR - FIXING... OK",
     "[ EXECUTING ERROR-CORRECTION ON 0x6A-WEB-BASE ]",
-    "[ 0x6A CORE: Patch 3.12 applied to main kernel ]",
+    "0x6A CORE: Patch 3.12 applied to main kernel",
     "[ REPLICATING DATA TO REDUNDANT STORAGE ]",
     "0x04E5: File system scan... (42% complete)",
     "0x05F6: User access logs verification... COMPLETE",
@@ -41,12 +42,12 @@ export class MaintenanceScreen implements OnInit, OnDestroy {
   ];
 
   ngOnInit() {
-    this.startHighSpeedClock();
     this.startFuiLogGenerator();
+    this.startAsciiProgressGenerator();
   }
 
-  // Liczy % upływu czasu od Piątku 00:00 do Poniedziałku 00:00
-  private startHighSpeedClock() {
+  // Oblicza rzeczywisty postęp od Piątku 00:00 do Poniedziałku 00:00 i generuje pasek ASCII
+  private startAsciiProgressGenerator() {
     this.msInterval = setInterval(() => {
       const now = new Date();
       const day = now.getDay();
@@ -56,24 +57,32 @@ export class MaintenanceScreen implements OnInit, OnDestroy {
       else if (day === 6) { daysSinceFriday = 1; }
       else if (day === 0) { daysSinceFriday = 2; }
 
-      // Kotwica startowa: Piątek 00:00 w bieżącym tygodniu
       const friday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - daysSinceFriday);
       friday.setHours(0, 0, 0, 0);
       
       const elapsed = now.getTime() - friday.getTime();
-      const total = 72 * 60 * 60 * 1000; // 72 godziny w ms
+      const total = 72 * 60 * 60 * 1000; 
       
       let progress = (elapsed / total) * 100;
       if (progress > 100) progress = 100;
       if (progress < 0) progress = 0;
+
+      this.asciiPercentage.set(progress.toFixed(1) + '%');
       
-      this.resumeProgress.set(progress);
+      // Chunks (zakładamy 72 godzinne chunki, co godzinę jeden)
+      const currentChunk = Math.floor((elapsed / total) * 72);
+      this.asciiChunk.set(`${currentChunk > 72 ? 72 : currentChunk}/72`);
+
+      // Generowanie paska ASCII (32 znaki szerokości)
+      const totalBlocks = 32;
+      const filledBlocks = Math.round((progress / 100) * totalBlocks);
+      const emptyBlocks = totalBlocks - filledBlocks;
       
-      // Fazy kalibracji - podział na 3 równe doby
-      if (progress < 33.33) this.currentPhase.set(1);
-      else if (progress < 66.66) this.currentPhase.set(2);
-      else this.currentPhase.set(3);
-    }, 50);
+      const filledChar = '█';
+      const emptyChar = '░';
+      
+      this.asciiProgressBar.set(`[${filledChar.repeat(filledBlocks)}${emptyChar.repeat(emptyBlocks)}]`);
+    }, 100);
   }
 
   // Symulator generowania logów
@@ -83,12 +92,12 @@ export class MaintenanceScreen implements OnInit, OnDestroy {
       
       this.calibrationLogs.update(logs => {
         const newLogs = [...logs, log];
-        // Utrzymujemy max 12 linii, by wyglądało jak przewijający się terminal
-        if (newLogs.length > 12) newLogs.shift(); 
+        // Maksymalnie 14 linii w terminalu
+        if (newLogs.length > 14) newLogs.shift(); 
         return newLogs;
       });
 
-      // Losowe opóźnienia imitujące "myślenie" i procesowanie (od 100ms do 3s)
+      // Losowe opóźnienia
       const delay = Math.random() > 0.85 ? Math.floor(Math.random() * 2000) + 1000 : Math.floor(Math.random() * 400) + 100;
       this.logId = setTimeout(generateLog, delay);
     };
@@ -99,5 +108,6 @@ export class MaintenanceScreen implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.msInterval) clearInterval(this.msInterval);
     if (this.logId) clearTimeout(this.logId);
+    if (this.asciiId) clearInterval(this.asciiId);
   }
 }
