@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;300;400&display=swap');
+
 /* ========================================= */
 /* ORYGINALNE STYLE (AKTYWNA STRONA)         */
 /* ========================================= */
@@ -109,9 +111,8 @@ app-footer {
 
 /* ========================================= */
 /* THE FLATLINE: INSTITUTIONAL BRUTALISM     */
+/* (Codzienna przerwa 23:00 - 00:00)         */
 /* ========================================= */
-
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;300;400&display=swap');
 
 .flatline-clinical-screen {
   position: fixed;
@@ -205,4 +206,699 @@ app-footer {
   font-size: 9px;
   color: #444444;
   letter-spacing: 2px;
+}
+
+/* ========================================= */
+/* COMMAND CENTER VAULT (WEEKEND PROTOCOL)   */
+/* ========================================= */
+
+.vault-screen {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background-color: #000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  font-family: 'JetBrains Mono', monospace;
+  -webkit-font-smoothing: antialiased;
+}
+
+.vault-container {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  background-color: #040404;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.8);
+}
+
+.vault-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.vault-title {
+  font-size: 12px;
+  color: #888;
+  letter-spacing: 2px;
+}
+
+.vault-badge {
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+  color: #00E5FF;
+  letter-spacing: 1px;
+}
+
+.v-dot {
+  width: 6px; height: 6px;
+  background-color: #00E5FF;
+  margin-right: 8px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.vault-body {
+  display: flex;
+  height: 350px;
+}
+
+.vault-panel-left {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.v-lbl {
+  font-size: 10px;
+  color: #555;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+}
+
+.v-clock-unix {
+  font-size: 32px;
+  font-weight: 100;
+  color: #00E5FF;
+  letter-spacing: 1px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  text-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+}
+
+.v-clock-human {
+  font-size: 10px;
+  color: #666;
+  letter-spacing: 2px;
+  margin-top: 10px;
+}
+
+.v-honeycomb {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.v-h-row {
+  display: flex;
+  margin-bottom: -6px;
+}
+.v-h-stagger {
+  margin-left: 14px;
+}
+
+.v-h-cell {
+  width: 28px;
+  height: 32px;
+  margin: 0 1px;
+  overflow: visible;
+}
+
+.v-h-cell polygon {
+  fill: #000000;
+  stroke: rgba(255, 255, 255, 0.15);
+  stroke-width: 1.5;
+  transition: stroke 0.8s ease-out;
+}
+
+.v-h-text {
+  font-size: 13px;
+  font-family: 'JetBrains Mono', monospace;
+  fill: rgba(255, 255, 255, 0.4);
+}
+
+.matrix-flash .v-h-cell polygon {
+  stroke: rgba(0, 229, 255, 0.5);
+  transition: stroke 0.05s ease-out;
+}
+.matrix-flash .v-h-cell:nth-child(1) polygon { transition-delay: 0s; }
+.matrix-flash .v-h-cell:nth-child(2) polygon { transition-delay: 0.05s; }
+.matrix-flash .v-h-cell:nth-child(3) polygon { transition-delay: 0.1s; }
+
+/* -------------------------------------------
+   Prawy Panel: Usztywnienie wstrzykniętego modułu 
+   ------------------------------------------- */
+.vault-panel-right {
+  flex: 1.2;
+  padding: 40px; 
+  display: flex;
+  flex-direction: column;
+  background: #020202;
+  overflow: hidden; 
+  -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+}
+
+.vault-panel-right app-metrics-feed {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Wymuszamy pełną szerokość i likwidujemy "ucięcie" z prawej strony */
+.vault-panel-right ::ng-deep .terminal-container,
+.vault-panel-right ::ng-deep .terminal-header,
+.vault-panel-right ::ng-deep .terminal-body,
+.vault-panel-right ::ng-deep .log-line,
+.vault-panel-right ::ng-deep > div {
+  border: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: 100% !important; /* Likwiduje sztywne zablokowanie szerokości komponentu */
+  width: 100% !important; /* Rozpycha tekst na całą wolną przestrzeń prawego panelu */
+  height: 100% !important;
+  min-height: unset !important;
+  box-shadow: none !important;
+}
+
+/* Zapewnia, że nagłówek terminala też ma 100% szerokości */
+.vault-panel-right ::ng-deep .terminal-header {
+  height: auto !important;
+  margin-bottom: 20px !important;
+  padding-bottom: 10px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Zapobiega łamaniu się linii logów (text wrap) - zostaną ścięte niewidzialnie przez overflow */
+.vault-panel-right ::ng-deep .log-line {
+  white-space: nowrap !important;
+}
+
+/* ------------------------------------------- */
+
+.vault-footer {
+  padding: 20px 25px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  background: #000;
+}
+
+.v-progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  color: #666;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.v-cyan { color: #00E5FF; }
+
+.v-progress-track {
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.v-progress-fill {
+  height: 100%;
+  background: #00E5FF;
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+  transition: width 1s linear;
+}
+
+@media (max-width: 900px) {
+  .vault-body { flex-direction: column; height: auto; }
+  .vault-panel-right { display: none; } 
+}@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;300;400&display=swap');
+
+/* ========================================= */
+/* ORYGINALNE STYLE (AKTYWNA STRONA)         */
+/* ========================================= */
+
+.compilation-container {
+  padding: 10px 30px;
+  max-width: 1100px;
+  margin: 0 auto 30px auto;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+
+.compilation-log {
+  color: #e8dc3a;
+  text-shadow: 0 0 6px rgba(232, 220, 58, 0.4);
+  margin-bottom: 4px;
+  animation: writeLog 0.1s ease-out forwards;
+}
+
+@keyframes writeLog {
+  0% { 
+    opacity: 0; 
+    color: #fff;
+    text-shadow: 0 0 10px #fff; 
+    transform: translateX(-5px); 
+  }
+  100% { 
+    opacity: 1; 
+    color: #e8dc3a;
+    transform: translateX(0); 
+  }
+}
+
+app-architecture, 
+app-metrics-feed, 
+app-access-protocol, 
+app-capital-projection,
+app-footer {
+  display: block; 
+  animation: mechanicalRender 1.2s steps(20, end) forwards;
+}
+
+@keyframes mechanicalRender {
+  0% { 
+    clip-path: inset(0 0 100% 0);
+    filter: sepia(100%) hue-rotate(90deg) brightness(300%) contrast(150%); 
+  }
+  100% { 
+    clip-path: inset(0 0 0 0);
+    filter: sepia(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
+  }
+}
+
+.hero-split {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  width: 100%;
+  max-width: 1350px; 
+  margin: 100px auto;
+  padding: 0 40px;
+  animation: smoothEnter 1.2s ease-out forwards;
+}
+
+@media (max-width: 1024px) {
+  .hero-split {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 80px;
+  }
+}
+
+@keyframes smoothEnter {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.bottom-split {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; 
+  width: 100%;
+  max-width: 1350px; 
+  margin: 60px auto;
+  padding: 0 40px;
+  gap: 60px; 
+}
+
+.bottom-split app-access-protocol,
+.bottom-split app-metrics-feed {
+  flex: 1;
+}
+
+.bottom-split app-metrics-feed {
+  margin-top: 60px;
+}
+
+@media (max-width: 1100px) {
+  .bottom-split {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+  .bottom-split app-metrics-feed {
+    margin-top: 0;
+  }
+}
+
+/* ========================================= */
+/* THE FLATLINE: INSTITUTIONAL BRUTALISM     */
+/* (Codzienna przerwa 23:00 - 00:00)         */
+/* ========================================= */
+
+.flatline-clinical-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  overflow: hidden;
+  font-family: 'JetBrains Mono', monospace;
+  -webkit-font-smoothing: antialiased;
+}
+
+.flatline-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.baseline-track {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: rgba(0, 229, 255, 0.15);
+  z-index: 1;
+}
+
+.clinical-core-block {
+  position: relative;
+  z-index: 2;
+  background-color: #000000;
+  padding: 0 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.baseline-sonar {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 12px;
+  height: 1px;
+  background-color: #00E5FF;
+  z-index: 3;
+  pointer-events: none;
+  animation: clinicalScan 8s linear infinite;
+  mix-blend-mode: screen; 
+}
+
+@keyframes clinicalScan {
+  0% { left: 0; opacity: 0; }
+  5% { opacity: 1; }
+  95% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+.text-micro {
+  font-size: 9px;
+  color: #555555;
+  letter-spacing: 1px;
+}
+
+.text-status {
+  font-size: 14px;
+  color: #CCCCCC;
+  letter-spacing: 2px;
+  position: relative;
+}
+
+.text-clock {
+  font-size: 12px;
+  color: #00E5FF;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 1px;
+}
+
+.perimeter-void-status {
+  position: absolute;
+  bottom: 25px;
+  right: 35px;
+  font-size: 9px;
+  color: #444444;
+  letter-spacing: 2px;
+}
+
+/* ========================================= */
+/* COMMAND CENTER VAULT (WEEKEND PROTOCOL)   */
+/* ========================================= */
+
+.vault-screen {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background-color: #000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  font-family: 'JetBrains Mono', monospace;
+  -webkit-font-smoothing: antialiased;
+}
+
+.vault-container {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  background-color: #040404;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.8);
+}
+
+.vault-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.vault-title {
+  font-size: 12px;
+  color: #888;
+  letter-spacing: 2px;
+}
+
+.vault-badge {
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+  color: #00E5FF;
+  letter-spacing: 1px;
+}
+
+.v-dot {
+  width: 6px; height: 6px;
+  background-color: #00E5FF;
+  margin-right: 8px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.vault-body {
+  display: flex;
+  height: 350px;
+}
+
+.vault-panel-left {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.v-lbl {
+  font-size: 10px;
+  color: #555;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+}
+
+.v-clock-unix {
+  font-size: 32px;
+  font-weight: 100;
+  color: #00E5FF;
+  letter-spacing: 1px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  text-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+}
+
+.v-clock-human {
+  font-size: 10px;
+  color: #666;
+  letter-spacing: 2px;
+  margin-top: 10px;
+}
+
+.v-honeycomb {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.v-h-row {
+  display: flex;
+  margin-bottom: -6px;
+}
+.v-h-stagger {
+  margin-left: 14px;
+}
+
+.v-h-cell {
+  width: 28px;
+  height: 32px;
+  margin: 0 1px;
+  overflow: visible;
+}
+
+.v-h-cell polygon {
+  fill: #000000;
+  stroke: rgba(255, 255, 255, 0.15);
+  stroke-width: 1.5;
+  transition: stroke 0.8s ease-out;
+}
+
+.v-h-text {
+  font-size: 13px;
+  font-family: 'JetBrains Mono', monospace;
+  fill: rgba(255, 255, 255, 0.4);
+}
+
+.matrix-flash .v-h-cell polygon {
+  stroke: rgba(0, 229, 255, 0.5);
+  transition: stroke 0.05s ease-out;
+}
+.matrix-flash .v-h-cell:nth-child(1) polygon { transition-delay: 0s; }
+.matrix-flash .v-h-cell:nth-child(2) polygon { transition-delay: 0.05s; }
+.matrix-flash .v-h-cell:nth-child(3) polygon { transition-delay: 0.1s; }
+
+/* -------------------------------------------
+   Prawy Panel: BEZWZGLĘDNE NADPISANIE KOMPONENTU
+   ------------------------------------------- */
+.vault-panel-right {
+  flex: 1.2;
+  position: relative; /* Kluczowe dla wymuszenia rozciągnięcia dziecka */
+  background: #020202;
+  overflow: hidden; 
+  padding: 0 !important; /* Zero paddingu na matce */
+  -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+}
+
+/* Zdejmujemy naturalny flow z taga Angulara, zmuszając go do rozciągnięcia się na 100% matki */
+.vault-panel-right app-metrics-feed {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+}
+
+/* Kasujemy wszystkie symetryczne marginesy, wyśrodkowania i maksymalne szerokości w jego wewnętrznych divach */
+.vault-panel-right ::ng-deep .terminal-container,
+.vault-panel-right ::ng-deep .compilation-container,
+.vault-panel-right ::ng-deep > div {
+  max-width: 100% !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 40px !important; /* Idealnie równe wyrównanie z paddingiem lewego panelu */
+  box-sizing: border-box !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important; /* Sztywne przyklejenie całości do lewej krawędzi panelu */
+}
+
+/* Nagłówek logów uwalniamy z jego własnych ram */
+.vault-panel-right ::ng-deep .terminal-header,
+.vault-panel-right ::ng-deep .compilation-header {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 0 20px 0 !important;
+  padding: 0 0 10px 0 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  display: flex !important;
+  justify-content: space-between !important;
+}
+
+/* Ciało z logami rozciągamy do zera z dołu */
+.vault-panel-right ::ng-deep .terminal-body,
+.vault-panel-right ::ng-deep .log-stream {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+}
+
+/* Linie logów ściśle od lewej, bez łamania tekstu (będą kinowo ucięte przez krawędź boxa) */
+.vault-panel-right ::ng-deep .log-line {
+  width: 100% !important;
+  white-space: nowrap !important;
+  display: flex !important;
+  justify-content: flex-start !important;
+  text-align: left !important;
+}
+
+/* ------------------------------------------- */
+
+.vault-footer {
+  padding: 20px 25px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  background: #000;
+}
+
+.v-progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  color: #666;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.v-cyan { color: #00E5FF; }
+
+.v-progress-track {
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.v-progress-fill {
+  height: 100%;
+  background: #00E5FF;
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+  transition: width 1s linear;
+}
+
+@media (max-width: 900px) {
+  .vault-body { flex-direction: column; height: auto; }
+  .vault-panel-right { display: none; } 
 }
