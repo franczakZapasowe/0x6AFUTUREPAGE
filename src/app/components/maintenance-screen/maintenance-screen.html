@@ -27,12 +27,22 @@
       <div class="ascii-row">> status: isolating redundant cycles</div>
     </div>
 
-    <!-- PRAWA STRONA: Logi -->
+    <!-- PRAWA STRONA: Terminal diagnostyczny -->
     <div class="fui-panel fui-logs">
-      @for (log of calibrationLogs(); track $index) {
-        <div class="log-line" [class.highlight]="log.includes('[')">{{ log }}</div>
-      }
-      <div class="log-line cursor-blink">█</div>
+      <div class="log-stack">
+        @for (line of terminalLines(); track line.id) {
+          <div class="log-line" [class.is-latest]="$last" [class.is-alert]="line.alert">
+            @if (line.tag) {
+              <span class="log-tag">{{ line.tag }}</span>
+            }
+            <span class="log-body">{{ line.body }}</span>
+            @if (line.status) {
+              <span class="log-status">{{ line.status }}</span>
+            }
+          </div>
+        }
+        <div class="log-cursor"></div>
+      </div>
     </div>
 
   </div>

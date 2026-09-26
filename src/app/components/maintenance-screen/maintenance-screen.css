@@ -43,7 +43,7 @@
   display: grid;
   
   grid-template-columns: 0.8fr 1.2fr; 
-  grid-template-rows: auto auto; 
+  grid-template-rows: auto auto;
   
   row-gap: 90px;
   column-gap: 200px; 
@@ -110,41 +110,77 @@
   color: #7b9fa6; 
 }
 
-/* 3. SEKCJA LOGÓW (Prawa strona) */
+/* 3. TERMINAL DIAGNOSTYCZNY (Prawa strona) */
 .fui-logs {
   grid-column: 2 / 3;
-  grid-row: 1 / 3; 
-  font-size: 12px;
-  color: #666666; 
-  line-height: 1.8;
-  height: 380px; 
+  grid-row: 1 / 3;
+  position: relative;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  height: 380px;
   overflow: hidden;
+  background: #000000;
+
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 12px;
+  line-height: 1.2;
+  text-align: left;
+  color: #888888;
+
+  /* Bez ligatur: "->" zostaje surowym "->", nie strzałką */
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "calt" 0;
+}
+
+/* Stos linii zakotwiczony do dołu panelu:
+   dopóki się mieści – wypełnia panel od góry,
+   gdy go przerośnie – stare linie wyjeżdżają górą i są ucinane */
+.log-stack {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  min-height: 100%;
 }
 
 .log-line {
-  white-space: nowrap; 
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: #888888;
 }
 
-.log-line.highlight {
-  color: #00E5FF; 
-  margin-top: 15px; 
-  margin-bottom: 5px;
-  white-space: normal; 
+.log-line.is-latest {
+  color: #DDDDDD;
 }
 
-.cursor-blink {
-  display: inline-block;
-  color: #00E5FF;
-  animation: blink 1s step-end infinite;
-  margin-top: 5px;
+.log-tag {
+  margin-right: 1ch;
 }
-@keyframes blink { 50% { opacity: 0; } }
+
+.log-status {
+  margin-left: 1ch;
+  color: #FFFFFF;
+}
+
+.log-line.is-alert .log-tag {
+  color: #FFFFFF;
+}
+
+/* Kursor: pełna komórka znaku, twarde miganie bez przejść */
+.log-cursor {
+  width: 1ch;
+  height: 1.2em;
+  background: #BBBBBB;
+  animation: cursorBlink 1s step-end infinite;
+}
+
+@keyframes cursorBlink {
+  50% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .log-cursor { animation: none; }
+}
 
 /* RESPONSIVE */
 @media (max-width: 900px) {
