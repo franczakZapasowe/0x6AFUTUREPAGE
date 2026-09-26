@@ -21,6 +21,9 @@ export class MaintenanceScreen implements OnInit, OnDestroy {
   asciiPercentage = signal<string>('0.0%');
   asciiChunk = signal<string>('0/72');
 
+  // CORE_ALIGNMENT_METRICS: koniec okna serwisowego jako Unix timestamp
+  lockExpiry = signal<string>('0000000000');
+
   // Terminal diagnostyczny (prawy panel)
   terminalLines = signal<TerminalLine[]>([]);
 
@@ -67,8 +70,23 @@ export class MaintenanceScreen implements OnInit, OnDestroy {
   ];
 
   ngOnInit() {
+    this.lockExpiry.set(this.computeLockExpiry());
     this.startFuiLogGenerator();
     this.startAsciiProgressGenerator();
+  }
+
+  // Unix timestamp (sekundy) najbliższego poniedziałku 00:00 GMT+1.
+  // Liczone w UTC, więc każdy odwiedzający widzi tę samą wartość niezależnie od strefy.
+  private computeLockExpiry(): string {
+    const OFFSET_MS = 1 * 60 * 60 * 1000; // GMT+1 (dla czasu letniego ustaw 2)
+    const shifted = new Date(Date.now() + OFFSET_MS);
+    const daysToMonday = (8 - shifted.getUTCDay()) % 7 || 7;
+    const mondayMs = Date.UTC(
+      shifted.getUTCFullYear(),
+      shifted.getUTCMonth(),
+      shifted.getUTCDate() + daysToMonday
+    ) - OFFSET_MS;
+    return Math.floor(mondayMs / 1000).toString();
   }
 
   // Oblicza rzeczywisty postęp od Piątku 00:00 do Poniedziałku 00:00 i generuje pasek ASCII

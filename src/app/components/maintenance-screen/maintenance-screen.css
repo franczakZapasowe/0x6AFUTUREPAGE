@@ -81,6 +81,10 @@
   row-gap: 12px; 
   column-gap: 30px;
   font-size: 11px;
+
+  /* Bez ligatur: "->" i "//" zostają surowe */
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "calt" 0;
 }
 
 .d-key { color: #555555; }
