@@ -9,6 +9,13 @@ interface TerminalLine {
   alert: boolean;  // linia z tablicy błędów / wymuszeń
 }
 
+// Jeden wiersz matrycy BUFFER_RECONSTRUCTION (16 bloków)
+interface BufferRow {
+  addr: string;    // np. "0x10:"
+  filled: string;  // pełne bloki "█"
+  empty: string;   // puste bloki "."
+}
+
 @Component({
   selector: 'app-maintenance-screen',
   standalone: true,
@@ -16,10 +23,11 @@ interface TerminalLine {
   styleUrl: './maintenance-screen.css'
 })
 export class MaintenanceScreen implements OnInit, OnDestroy {
-  // Pasek postępu ASCII i jego detale
-  asciiProgressBar = signal<string>('[░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░]');
-  asciiPercentage = signal<string>('0.0%');
-  asciiChunk = signal<string>('0/72');
+  // BUFFER_RECONSTRUCTION: matryca 4 × 16 = 64 bloki
+  bufferRows = signal<BufferRow[]>([]);
+  bufferProcessed = signal<number>(0);
+  bufferState = signal<string>('');
+  bufferSpinner = signal<string>('');  // pusty = spinner nieaktywny, pokazujemy kursor
 
   // CORE_ALIGNMENT_METRICS: koniec okna serwisowego jako Unix timestamp
   lockExpiry = signal<string>('0000000000');
@@ -28,8 +36,24 @@ export class MaintenanceScreen implements OnInit, OnDestroy {
   terminalLines = signal<TerminalLine[]>([]);
 
   private logId: any;
-  private asciiId: any;
-  private msInterval: any;
+  private bufferId: any;
+  private stateId: any;
+  private spinnerId: any;
+  private spinnerStopId: any;
+
+  // Parametry bufora
+  private readonly BUFFER_BLOCKS = 64;
+  private readonly BUFFER_ROW_WIDTH = 16;
+  private readonly WINDOW_MS = 72 * 60 * 60 * 1000;  // pt 00:00 → pn 00:00 UTC
+  private readonly DAY_MS = 24 * 60 * 60 * 1000;
+  private readonly SPINNER_FRAMES = ['|', '/', '-', '\\'];
+  private readonly bufferStates = [
+    'ISOLATING_LEAKS',
+    'FLUSHING_CACHE',
+    'REBUILDING_INDEX',
+    'VERIFYING_SECTORS',
+    'ALIGNING_HASHES'
+  ];
 
   // Limit linii trzymanych w pamięci / DOM
   private readonly MAX_LINES = 36;
@@ -72,7 +96,7 @@ export class MaintenanceScreen implements OnInit, OnDestroy {
   ngOnInit() {
     this.lockExpiry.set(this.computeLockExpiry());
     this.startFuiLogGenerator();
-    this.startAsciiProgressGenerator();
+    this.startBufferReconstruction();
   }
 
   // Unix timestamp (sekundy) najbliższego poniedziałku 00:00 GMT+1.
@@ -89,43 +113,81 @@ export class MaintenanceScreen implements OnInit, OnDestroy {
     return Math.floor(mondayMs / 1000).toString();
   }
 
-  // Oblicza rzeczywisty postęp od Piątku 00:00 do Poniedziałku 00:00 i generuje pasek ASCII
-  private startAsciiProgressGenerator() {
-    this.msInterval = setInterval(() => {
-      const now = new Date();
-      const day = now.getDay();
-      let daysSinceFriday = 0;
-      
-      if (day === 5) { daysSinceFriday = 0; }
-      else if (day === 6) { daysSinceFriday = 1; }
-      else if (day === 0) { daysSinceFriday = 2; }
+  // ─────────────────────────────────────────────
+  // BUFFER_RECONSTRUCTION: postęp w czasie rzeczywistym
+  // ─────────────────────────────────────────────
 
-      const friday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - daysSinceFriday);
-      friday.setHours(0, 0, 0, 0);
-      
-      const elapsed = now.getTime() - friday.getTime();
-      const total = 72 * 60 * 60 * 1000; 
-      
-      let progress = (elapsed / total) * 100;
-      if (progress > 100) progress = 100;
-      if (progress < 0) progress = 0;
+  private startBufferReconstruction() {
+    this.updateBuffer();
+    this.bufferId = setInterval(() => this.updateBuffer(), 1000);
+    this.setNextState();
+  }
 
-      this.asciiPercentage.set(progress.toFixed(1) + '%');
-      
-      // Chunks (zakładamy 72 godzinne chunki, co godzinę jeden)
-      const currentChunk = Math.floor((elapsed / total) * 72);
-      this.asciiChunk.set(`${currentChunk > 72 ? 72 : currentChunk}/72`);
+  // Okno: trwający (lub najbliższy) piątek 00:00 UTC → poniedziałek 00:00 UTC, dokładnie 72 h.
+  // Liczone w UTC (bez DST), więc przejście przez weekend, miesiąc i rok jest zawsze równe.
+  private computeFilledBlocks(nowMs: number): number {
+    const now = new Date(nowMs);
+    const daysSinceFriday = (now.getUTCDay() + 2) % 7; // pt=0, sb=1, nd=2, pn=3 … czw=6
 
-      // Generowanie paska ASCII (32 znaki szerokości)
-      const totalBlocks = 32;
-      const filledBlocks = Math.round((progress / 100) * totalBlocks);
-      const emptyBlocks = totalBlocks - filledBlocks;
-      
-      const filledChar = '█';
-      const emptyChar = '░';
-      
-      this.asciiProgressBar.set(`[${filledChar.repeat(filledBlocks)}${emptyChar.repeat(emptyBlocks)}]`);
+    let start = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - daysSinceFriday);
+    if (nowMs >= start + this.WINDOW_MS) {
+      start += 7 * this.DAY_MS; // okno już minęło → liczymy do najbliższego piątku (0 bloków)
+    }
+
+    const progress = Math.min(1, Math.max(0, (nowMs - start) / this.WINDOW_MS));
+    return Math.floor(progress * this.BUFFER_BLOCKS);
+  }
+
+  // Co sekundę przelicza bloki; DOM aktualizowany tylko gdy liczba się zmieni
+  private updateBuffer() {
+    const filled = this.computeFilledBlocks(Date.now());
+    if (filled === this.bufferProcessed() && this.bufferRows().length) return;
+
+    this.bufferProcessed.set(filled);
+
+    const rows: BufferRow[] = [];
+    const rowCount = this.BUFFER_BLOCKS / this.BUFFER_ROW_WIDTH;
+    for (let r = 0; r < rowCount; r++) {
+      const offset = r * this.BUFFER_ROW_WIDTH;
+      const rowFilled = Math.min(this.BUFFER_ROW_WIDTH, Math.max(0, filled - offset));
+      rows.push({
+        addr: '0x' + offset.toString(16).toUpperCase().padStart(2, '0') + ':',
+        filled: '█'.repeat(rowFilled),
+        empty: '.'.repeat(this.BUFFER_ROW_WIDTH - rowFilled)
+      });
+    }
+    this.bufferRows.set(rows);
+  }
+
+  // STATE: zmiana co 3–8 s, bez powtórzenia poprzedniego stanu
+  private setNextState() {
+    let next: string;
+    do {
+      next = this.bufferStates[Math.floor(Math.random() * this.bufferStates.length)];
+    } while (next === this.bufferState());
+
+    this.bufferState.set(next);
+    this.runSpinner(this.rand(800, 1600));
+    this.stateId = setTimeout(() => this.setNextState(), this.rand(3000, 8000));
+  }
+
+  // Spinner | / - \ przez chwilę po zmianie stanu, potem wraca migający kursor
+  private runSpinner(durationMs: number) {
+    clearInterval(this.spinnerId);
+    clearTimeout(this.spinnerStopId);
+
+    let frame = 0;
+    this.bufferSpinner.set(this.SPINNER_FRAMES[frame]);
+
+    this.spinnerId = setInterval(() => {
+      frame = (frame + 1) % this.SPINNER_FRAMES.length;
+      this.bufferSpinner.set(this.SPINNER_FRAMES[frame]);
     }, 100);
+
+    this.spinnerStopId = setTimeout(() => {
+      clearInterval(this.spinnerId);
+      this.bufferSpinner.set('');
+    }, durationMs);
   }
 
   // ─────────────────────────────────────────────
@@ -234,8 +296,10 @@ export class MaintenanceScreen implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.msInterval) clearInterval(this.msInterval);
     if (this.logId) clearTimeout(this.logId);
-    if (this.asciiId) clearInterval(this.asciiId);
+    if (this.bufferId) clearInterval(this.bufferId);
+    if (this.stateId) clearTimeout(this.stateId);
+    if (this.spinnerId) clearInterval(this.spinnerId);
+    if (this.spinnerStopId) clearTimeout(this.spinnerStopId);
   }
 }

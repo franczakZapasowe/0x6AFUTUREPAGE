@@ -90,28 +90,53 @@
 .d-key { color: #555555; }
 .d-val { color: #a0a0a0; }
 
-/* 2. SEKCJA PASKU ASCII (Lewy Dół) */
-.fui-ascii-progress {
+/* 2. BUFFER_RECONSTRUCTION (Lewy Dół) */
+.fui-buffer {
   grid-column: 1 / 2;
   grid-row: 2 / 3;
-  display: flex;
-  flex-direction: column;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
   font-size: 12px;
-  color: #666666;
-  line-height: 2.2;
-}
-
-.ascii-row {
+  line-height: 1.4;
+  text-align: left;
+  color: #FFFFFF;
   white-space: nowrap;
+
+  /* Bez ligatur: "0x" i "..." zostają surowe */
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "calt" 0;
 }
 
-.ascii-row .bar {
-  letter-spacing: 1px;
-  color: #888888; 
+/* Nagłówek tylko tego panelu bez niebieskiego */
+.fui-buffer .fui-panel-header {
+  color: #FFFFFF;
 }
 
-.accent {
-  color: #7b9fa6; 
+.buffer-addr {
+  margin-right: 1ch;
+}
+
+.buffer-filled {
+  color: #FFFFFF;
+}
+
+.buffer-empty {
+  color: #555555;
+}
+
+/* Jedna pusta linia między matrycą a statusem */
+.buffer-meta {
+  margin-top: 1.4em;
+}
+
+/* Spinner / kursor: stała szerokość jednej komórki, tekst obok nie skacze */
+.buffer-activity {
+  display: inline-block;
+  width: 1ch;
+  margin-left: 1ch;
+}
+
+.buffer-cursor {
+  animation: cursorBlink 1s step-end infinite;
 }
 
 /* 3. TERMINAL DIAGNOSTYCZNY (Prawa strona) */
@@ -184,6 +209,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .log-cursor { animation: none; }
+  .buffer-cursor { animation: none; }
 }
 
 /* RESPONSIVE */
@@ -195,6 +221,6 @@
     transform: translate(0, 0); 
   }
   .fui-details { grid-column: 1 / 2; grid-row: 1 / 2; }
-  .fui-ascii-progress { grid-column: 1 / 2; grid-row: 2 / 3; }
+  .fui-buffer { grid-column: 1 / 2; grid-row: 2 / 3; }
   .fui-logs { grid-column: 1 / 2; grid-row: 3 / 4; justify-content: flex-end; }
 }

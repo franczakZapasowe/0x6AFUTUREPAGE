@@ -17,14 +17,18 @@
       </div>
     </div>
 
-    <!-- LEWA DÓŁ: ASCII Progress -->
-    <div class="fui-panel fui-ascii-progress">
-      <div class="fui-panel-header">[ REBUILDING 0x6A DEPENDENCIES ]</div>
-      <div class="ascii-row">Processing chunk <span class="accent">{{ asciiChunk() }}</span>...</div>
-      <div class="ascii-row">
-        <span class="bar">{{ asciiProgressBar() }}</span> <span class="accent">{{ asciiPercentage() }}</span>
+    <!-- LEWA DÓŁ: Buffer Reconstruction (hex grid) -->
+    <div class="fui-panel fui-buffer">
+      <div class="fui-panel-header">[ BUFFER_RECONSTRUCTION ]</div>
+      <div class="buffer-map">
+        @for (row of bufferRows(); track row.addr) {
+          <div class="buffer-row"><span class="buffer-addr">{{ row.addr }}</span><span class="buffer-filled">{{ row.filled }}</span><span class="buffer-empty">{{ row.empty }}</span></div>
+        }
       </div>
-      <div class="ascii-row">> status: isolating redundant cycles</div>
+      <div class="buffer-meta">
+        <div class="buffer-line">PROCESSED: {{ bufferProcessed() }}/64 BLOCKS</div>
+        <div class="buffer-line">STATE: {{ bufferState() }}@if (bufferSpinner()) {<span class="buffer-activity">{{ bufferSpinner() }}</span>} @else {<span class="buffer-activity buffer-cursor">_</span>}</div>
+      </div>
     </div>
 
     <!-- PRAWA STRONA: Terminal diagnostyczny -->
