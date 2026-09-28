@@ -37,7 +37,7 @@ export class LiveStream implements OnInit, OnDestroy, AfterViewChecked {
 
     // Zaczynamy cykl analityczny na starcie (żeby okno nie było puste)
     this.appendLog('MARKET', 'OBSERVING', 'val-cyan');
-    setTimeout(() => this.startAnalysisCycle(), 1000);
+    this.processTimeoutId = setTimeout(() => this.startAnalysisCycle(), 1000);
   }
 
   // Scrolluje na dół po każdym renderze, jeśli logów jest za dużo
@@ -99,7 +99,7 @@ export class LiveStream implements OnInit, OnDestroy, AfterViewChecked {
             this.processTimeoutId = setTimeout(() => {
                 this.appendLog('MARKET', 'OBSERVING', 'val-cyan');
                 // Restartujemy cykl
-                setTimeout(() => this.startAnalysisCycle(), 500);
+                this.processTimeoutId = setTimeout(() => this.startAnalysisCycle(), 500);
             }, idleDelay);
             
           }, 300); // 300ms po DENIED wypada STANDBY

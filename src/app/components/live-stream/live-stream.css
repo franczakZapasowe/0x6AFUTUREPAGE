@@ -1,10 +1,21 @@
+/* STAŁY ROZMIAR OKNA
+   Szerokość = najszerszy stan okna (wiersz z "OBSERVING"):
+   80px (czas) + 95px (klucz) + 25px (strzałka) + 9ch (najdłuższa wartość).
+   Okno nie dopasowuje się już do aktualnie widocznych logów, więc nie skacze.
+   Wysokość jest stała dzięki .stream-body (210px). */
 .stream-box {
   background: transparent;
   border: 1px solid #1a1a1a; /* Ciemnoszare obramowanie z footera */
   border-radius: 2px;
-  width: 100%;
-  max-width: 400px;
+  box-sizing: content-box;
+  width: calc(200px + 9ch);
+  min-width: calc(200px + 9ch);
+  flex-shrink: 0;
   padding: 20px 24px;
+
+  /* Ten sam font co w logach, żeby 9ch = dokładnie 9 znaków wartości */
+  font-family: 'Space Mono', 'Roboto Mono', 'Consolas', monospace;
+  font-size: 0.75rem;
 }
 
 .stream-header {
@@ -23,6 +34,7 @@
   font-size: 0.75rem; 
   letter-spacing: 2px;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .header-badge {
@@ -35,6 +47,7 @@
   display: flex;
   align-items: center;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .pulse-dot {
@@ -63,6 +76,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-start; 
+  white-space: nowrap;
   animation: slideUp 0.15s ease-out forwards;
 }
 
@@ -72,6 +86,7 @@
   color: #a0a5b5; 
   text-shadow: none;
   font-weight: 400;
+  flex-shrink: 0;
 }
 
 .log-time {
