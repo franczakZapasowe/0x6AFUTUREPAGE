@@ -19,10 +19,11 @@ export class AccessProtocol implements OnInit {
   validationLogs = signal<LogStep[]>([]);
   
   attempts = signal(0); 
-  readonly MAX_ATTEMPTS = 6;
+  readonly MAX_ATTEMPTS = 6
+  ;
   readonly STORAGE_KEY = '0x6a_access_attempts';
   // Tajny klucz dostępu
-  readonly SECRET_KEY = '0x6A:65:76:6C:6F:74'; 
+  readonly SECRET_KEY = '0X6A:65:76:6C:6F:74'; 
 
   ngOnInit() {
     const storedAttempts = localStorage.getItem(this.STORAGE_KEY);
